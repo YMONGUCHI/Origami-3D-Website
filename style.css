@@ -1,0 +1,275 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html{
+  overflow-x: hidden;
+  overflow-y: hidden;
+  font-family: "Poppins", sans-serif;
+}
+
+.homepagetext {
+  color: white;
+  font-size: 40px;
+  position: absolute;
+  top:75%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  white-space: nowrap;
+}
+
+.webgL {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+nav {
+  color: white;
+  position: relative;
+  padding: 4rem 8rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+nav a {
+  text-decoration: none;
+  color: white;
+  font-size: 30px;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  right: 15px;
+  gap: 50px;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 40px;
+}
+
+.main-link {
+  font-size: 50px;
+  position: absolute;
+  left: 40px;
+  top: 50px;
+}
+
+.ColorGUIText {
+  color: white;
+  z-index: 2;
+  position: absolute;
+  font-size: 15px;
+  left: 6%;
+  top: 78%;
+  transform: translate(-50%, -75%);
+  line-height: 400%;
+}
+
+.ColorGUIText1 {
+  color: white;
+  z-index: 2;
+  position: absolute;
+  font-size: 15px;
+  left: 6%;
+  top: 78%;
+  transform: translate(-50%, -75%);
+  line-height: 400%;
+}
+
+.ColorGUIText2 {
+  color: white;
+  z-index: 2;
+  position: absolute;
+  font-size: 15px;
+  left: 18%;
+  top: 78%;
+  transform: translate(-50%, -75%);
+  line-height: 400%;
+}
+
+.ColorGUIBox {
+  z-index: 2;
+  position: absolute;
+  left: 8%;
+  top: 75%;
+  transform: translate(-50%, -75%);
+  background-color: #222222;
+  width: 200px;
+  height: 250px;
+  border: 5px solid #141414;
+  padding: 50px;
+  margin: 20px;
+}
+
+.ColorGUIBox2 {
+  z-index: 2;
+  position: absolute;
+  left: 8%;
+  top: 75%;
+  transform: translate(-25%, -75%);
+  background-color: #222222;
+  width: 400px;
+  height: 250px;
+  border: 5px solid #141414;
+  padding: 50px;
+  margin: 20px;
+}
+
+.expandable {
+  --xy-padding: 14px;
+  --border-radius: 6px;
+  --transition-ms: 0.3s;
+
+  color: white;
+  z-index: 3;
+  position: absolute;
+  left: 70%;
+  top: 18%;
+  font-size: 16px;
+}
+
+.expandable-open .expandable_content-wrapper {
+  grid-template-rows: 1fr;
+}
+
+.expandable-open .expandable_icon {
+  transform: rotate(90deg);
+}
+
+.expandable_title-bar {
+  width: 450px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--xy-padding);
+  user-select: none;
+  background-color: #222222;
+  border: 1px solid #323131;
+  border-bottom: none;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.expandable_title {
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+}
+
+.expandable_image {
+  margin-top: 10px;
+  height: 100px;
+  width: 200px;
+}
+
+.expandable_icon {
+  transition: transform var(--transition-ms);
+}
+
+.expandable_content {
+  font-size: 20px;
+  padding: 0 var(--xy-padding);
+  line-height: 40px;
+  background-color: #222222;
+  border: 1px solid #323131;
+  border-top: none;
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  overflow: hidden;
+}
+
+.expandable_content-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease-out;
+}
+
+.title {
+  color: white;
+  z-index: 3;
+  position: absolute;
+  font-size: 20px;
+  left: 9%;
+  top: 60%;
+  transform: translate(-50%, -75%);
+}
+
+.color1 {
+  color: white;
+  z-index: 3;
+  position: absolute;
+  font-size: 20px;
+  left: 12%;
+  top: 66%;
+  transform: translate(-50%, -75%);
+}
+
+.color2 {
+  color: white;
+  z-index: 3;
+  position: absolute;
+  font-size: 20px;
+  left: 12%;
+  top: 73%;
+  transform: translate(-50%, -75%);
+}
+
+.color3 {
+  color: white;
+  z-index: 3;
+  position: absolute;
+  font-size: 20px;
+  left: 12%;
+  top: 80%;
+  transform: translate(-50%, -75%);
+}
+
+.color4 {
+  color: white;
+  z-index: 3;
+  position: absolute;
+  font-size: 20px;
+  left: 24%;
+  top: 66%;
+  transform: translate(-50%, -75%);
+}
+
+.color5 {
+  color: white;
+  z-index: 3;
+  position: absolute;
+  font-size: 20px;
+  left: 24%;
+  top: 73%;
+  transform: translate(-50%, -75%);
+}
+
+.color6 {
+  color: white;
+  z-index: 3;
+  position: absolute;
+  font-size: 20px;
+  left: 24%;
+  top: 80%;
+  transform: translate(-50%, -75%);
+}
+
+.webgL {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}

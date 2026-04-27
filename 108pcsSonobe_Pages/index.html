@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="/SonobeLogo1.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/style.css">
+  <title>Origami Club</title>
+</head>
+<body>
+  <canvas class="webgL"></canvas>
+  <nav>
+    <a href = "/index.html" class = "main-link">Origami Club</a>
+    <ul>
+      <li><a href = "/Models/index.html">Models</a></li>
+      <li><a href = "/Gallery/index.html">Gallery</a></li>
+      <li><a href = "/About_Us/index.html">About Us</a></li>
+    </ul>
+  </nav>
+  <div class = "expandable">
+    <div class = "expandable_title-bar">
+      <span class = expandable_title>Sonobe - 108pcs</span>
+      <ion-icon class = "expandable_icon" name="chevron-forward-outline"></ion-icon>
+    </div>
+    <div class = "expandable_content-wrapper">
+      <div class = "expandable_content">
+        <p>
+          Number of Pieces:   108pcs
+        </p>
+        <p>
+          Geometric Shape:    Octahedron
+        </p>
+        <p>
+          Number of Tetrahedron:    
+        </p>
+        <p>
+          Individual Piece:     Sonobe
+        </p>
+        <img src = "/Individual_Pieces/sonobepiece.png" class = "expandable_image">
+      </div>
+    </div>
+  </div>
+  <h3 class="title">Color Selector</h3>
+    <p class = "ColorGUIBox"></p>
+    <p class="ColorGUIText">
+      Color 1:
+      <br>
+      Color 2: 
+      <br>
+      Color 3: 
+    </p>
+    <div class="color1">
+      <input type = "color" id = 'colorPicker1' value = "#00ff83">
+    </div>
+    <div class="color2">
+      <input type = "color" id = "colorPicker2" value = "#0400ff">
+    </div>
+    <div class="color3">
+      <input type = "color" id = "colorPicker3" value = "#aa22ff">
+    </div>
+  <script type="module" src="./main.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
