@@ -8,15 +8,9 @@ import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js'
 function gltfloader(gltf_file) {
   var scene;
   scene = createscene();
-  var material1, material2, material3;
-  [material1, material2, material3] = definematerials();
-  loadgltf(gltf_file, material1, material2, material3, scene);
-  myColor1(material1);
-  document.getElementById('colorPicker1').addEventListener('input', function() { myColor1(material1); });
-  myColor2(material2);
-  document.getElementById('colorPicker2').addEventListener('input', function() { myColor2(material2); });
-  myColor3(material3);
-  document.getElementById('colorPicker3').addEventListener('input', function() { myColor3(material3); });
+  const materials = definematerials();
+  loadgltf(gltf_file, materials, scene);
+  materials.forEach((m, i) => bindColor(`colorPicker${i + 1}`, m));
   var sizes;
   sizes = definewindowsizes();
   createlights(scene);
@@ -35,21 +29,9 @@ function gltfloader(gltf_file) {
 function gltfloader2(gltf_file) {
   var scene;
   scene = createscene();
-  var material1, material2, material3, material4, material5, material6;
-  [material1, material2, material3, material4, material5, material6] = definematerials2();
-  loadgltf2(gltf_file, material1, material2, material3, material4, material5, material6, scene);
-  myColor1(material1);
-  document.getElementById('colorPicker1').addEventListener('input', function() { myColor1(material1); });
-  myColor2(material2);
-  document.getElementById('colorPicker2').addEventListener('input', function() { myColor2(material2); });
-  myColor3(material3);
-  document.getElementById('colorPicker3').addEventListener('input', function() { myColor3(material3); });
-  myColor4(material4);
-  document.getElementById('colorPicker4').addEventListener('input', function() { myColor4(material4); });
-  myColor5(material5);
-  document.getElementById('colorPicker5').addEventListener('input', function() { myColor5(material5); });
-  myColor6(material6);
-  document.getElementById('colorPicker6').addEventListener('input', function() { myColor6(material6); });
+  const materials = definematerials2();
+  loadgltf2(gltf_file, ...materials, scene);
+  materials.forEach((m, i) => bindColor(`colorPicker${i + 1}`, m));
   var sizes;
   sizes = definewindowsizes();
   createlights(scene);
@@ -70,82 +52,39 @@ function createscene() {
   return scene;
 }
 
-function definematerials() {
-  const material1 = new THREE.MeshStandardMaterial({
-    color: "#00ff83",
-    roughness: 0.2,
-    side: THREE.DoubleSide,
-  })
-  const material2 = new THREE.MeshStandardMaterial({
-    color: "#aa22ff",
-    roughness: 0.2,
-    side: THREE.DoubleSide,
-  })
-  const material3 = new THREE.MeshStandardMaterial({
-    color: "#0400ff",
-    roughness: 0.2,
-    side: THREE.DoubleSide,
-  })
-  return [material1, material2, material3];
+// Create a material in our shared style. Color is intentionally not set here:
+// each material's color is applied on load from its HTML color picker
+// (see bindColor/applyColor), so the picker `value` attributes are the single
+// source of truth for the colors.
+function makeMaterial() {
+  return new THREE.MeshStandardMaterial({ roughness: 0.2, side: THREE.DoubleSide });
 }
 
-// Define new materials
+// Materials for the standard 3-color models (colored via colorPicker1-3).
+function definematerials() {
+  return Array.from({ length: 3 }, makeMaterial);
+}
+
+// Materials for the 6-color models (colored via colorPicker1-6).
 function definematerials2() {
-  const material1 = new THREE.MeshStandardMaterial({
-    color: "#00ff83",
-    roughness: 0.2,
-    side: THREE.DoubleSide,
-  })
-  const material2 = new THREE.MeshStandardMaterial({
-    color: "#aa22ff",
-    roughness: 0.2,
-    side: THREE.DoubleSide,
-  })
-  const material3 = new THREE.MeshStandardMaterial({
-    color: "#0400ff",
-    roughness: 0.2,
-    side: THREE.DoubleSide,
-  })
-  const material4 = new THREE.MeshStandardMaterial({
-    color: "#0400ff",
-    roughness: 0.2,
-    side: THREE.DoubleSide,
-  })
-  const material5 = new THREE.MeshStandardMaterial({
-    color: "#0400ff",
-    roughness: 0.2,
-    side: THREE.DoubleSide,
-  })
-  const material6 = new THREE.MeshStandardMaterial({
-    color: "#0400ff",
-    roughness: 0.2,
-    side: THREE.DoubleSide,
-  })
-  return [material1, material2, material3, material4, material5, material6];
+  return Array.from({ length: 6 }, makeMaterial);
 }
 
 // Import GLTFLoader
-function loadgltf(gltf_file, material1, material2, material3, scene) {
+function loadgltf(gltf_file, materials, scene) {
   const loader = new GLTFLoader();
 
-  loader.load(gltf_file, 
+  loader.load(gltf_file,
   function(gltf) {
-    // Objects are broken down into three different parts where each one represents a specific color
+    // Each child of the model is one colored part.
     const model = gltf.scene;
-    const object1 = model.children[0]; 
-    const object2 = model.children[1];
-    const object3 = model.children[2];
-
-    // Assign Objects its default colors
-    object1.material = material1;
-    object2.material = material2;
-    object3.material = material3;
-
-    // Add objects to scene
-    scene.add(object1); 
-    scene.add(object2);
-    scene.add(object3);
-    },
+    const objects = [...model.children];
+    objects.forEach((object, i) => {
+      if (!materials[i]) return;
+      object.material = materials[i];
+      scene.add(object);
+    });
+  },
   function(error) {
     console.error(error);
     }
@@ -188,41 +127,16 @@ function loadgltf2(gltf_file, material1, material2, material3, material4, materi
   );
 }
 
-
-// Changes color of Object1 into a user's choice
-function myColor1(material1) {
-  var color = document.getElementById('colorPicker1').value;
-  material1.color.set(color);
+// Changes color of objects into user's choices
+function applyColor(pickerId, material) {
+  var color = document.getElementById(pickerId).value;
+  material.color.set(color);
 }
 
-// Changes color of Object2 into a user's choice
-function myColor2(material2) {
-  var color = document.getElementById('colorPicker2').value;
-  material2.color.set(color);
-}
-
-// Changes color of Object3 into a user's choice
-function myColor3(material3) {
-  var color = document.getElementById('colorPicker3').value;
-  material3.color.set(color);
-}
-
-// Changes color of Object4 into a user's choice
-function myColor4(material4) {
-  var color = document.getElementById('colorPicker4').value;
-  material4.color.set(color);
-}
-
-// Changes color of Object5 into a user's choice
-function myColor5(material5) {
-  var color = document.getElementById('colorPicker5').value;
-  material5.color.set(color);
-}
-
-// Changes color of Object6 into a user's choice
-function myColor6(material6) {
-  var color = document.getElementById('colorPicker6').value;
-  material6.color.set(color);
+// Set a material's color from a picker, and keep it in sync on change
+function bindColor(pickerId, material) {
+  applyColor(pickerId, material);
+  document.getElementById(pickerId).addEventListener('input', () => applyColor(pickerId, material));
 }
 
 // Window Sizes
