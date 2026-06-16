@@ -28,6 +28,7 @@ function gltfloader(gltf_file) {
   controls = definecontrols(camera, canvas);
   configureresize(controls, scene, camera, renderer);
   dropdownanimation();
+  setupExpandable();
 }
 
 //Function for loading modules with 6 colors
@@ -60,6 +61,7 @@ function gltfloader2(gltf_file) {
   controls = definecontrols(camera, canvas);
   configureresize(controls, scene, camera, renderer);
   dropdownanimation();
+  setupExpandable();
 }
 
 // Create a new scene
@@ -316,6 +318,14 @@ function configureresize(controls, scene, camera, renderer) {
 function dropdownanimation() {
   const tl = gsap.timeline({ defaults: { duration: 1} })
   tl.fromTo('nav', {y: "-100%" }, {y: "0%"})
+}
+
+// Handler
+function setupExpandable() {
+  document.body.addEventListener("click", (ev) => {
+    if (!ev.target.closest(".expandable_title-bar")) return;
+    ev.target.closest(".expandable").classList.toggle("expandable-open");
+  });
 }
 
 export {gltfloader}
