@@ -53,11 +53,31 @@ nav ul li {
 }
 
 #imageContainer {
-    overflow: auto;
-    max-height: 80vh;
-    padding: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
+    padding: 40px 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 250px);
+    justify-content: center;     /* center the 4-column block; extra width -> side margins */
+    gap: 150px 50px;            /* row-gap  column-gap  (spacing between modules) */
+}
+
+.model-card {
+    width: 250px;              /* module footprint */
+    text-decoration: none;
+    color: white;
+    text-align: center;
+}
+.model-card img {
+    width: 80%;                /* original image scale */
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+.model-card p { margin-top: 12px; }
+
+/* Narrow screens: keep 4 per row, but let the columns shrink to fit (no h-scroll) */
+@media (max-width: 1200px) {
+    #imageContainer {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
