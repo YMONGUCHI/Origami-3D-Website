@@ -1,0 +1,32 @@
+/* Gallery teaser strip on the homepage (real folded-paper photos). */
+.gallery {
+  border-top: 1px solid #2a2a2a;   /* divider from the section above */
+  padding: 90px 0;
+  color: white;
+}
+
+.gallery_track {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;     /* align tiles under the left-aligned header */
+  gap: 28px;
+}
+
+.gallery-shot {
+  width: 240px;
+  background: #161616;
+  border-radius: 12px;
+  padding: 10px;
+  overflow: hidden;
+  transition: transform .15s ease;
+}
+.gallery-shot img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  display: block;
+}
+.gallery-shot:hover { transform: translateY(-6px); }

@@ -4,7 +4,26 @@ import gsap from "gsap";
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import { mountNav } from './components/nav.js';
+import { mountFooter } from './components/footer.js';
+import { mountFeaturedStrip } from './components/featuredStrip.js';
+import { mountGalleryTeaser } from './components/galleryTeaser.js';
+import './home.css';
 mountNav();
+mountFeaturedStrip([
+  "sonobe/icosahedron/type-1/size-3",   // 270pcs
+  "sonobe/octahedron/type-2/size-2",    // 144pcs
+  "sonobe/icosahedron/type-2/size-2",   // 360pcs
+  "bow-tie/icosahedron",
+  "poke/octahedron",
+  "sonobe/plane/hexagon/size-2",        // 72pcs
+]);
+mountGalleryTeaser([
+  { src: "/Gallery_PNG/BowTieMotif_30pcs_Inverted.png", alt: "Bow Tie Motif, 30 pieces, inverted" },
+  { src: "/Gallery_PNG/Sonobe_30pcs.png", alt: "Sonobe, 30 pieces" },
+  { src: "/Gallery_PNG/Sonobe_90pcs.png", alt: "Sonobe, 90 pieces" },
+  { src: "/Gallery_PNG/Sonobe_120pcs.png", alt: "Sonobe, 120 pieces" },
+]);
+mountFooter();
 
 // Scene
 const scene = new THREE.Scene();
@@ -49,10 +68,11 @@ loader.load("/GLB_Files/sonobemoduleicosahedron.glb",
   }
 );
 
-// Window Sizes
+// Stage sizes (the model area, not the whole window)
+const stage = document.querySelector(".hero-stage");
 const sizes = {
-  width: window.innerWidth,
-  height:window.innerHeight,
+  width: stage.clientWidth,
+  height: stage.clientHeight,
 }
 
 // Light 1
@@ -101,9 +121,9 @@ controls.autoRotate = true
 // Resize
 // Allow resizing when the window is scaled up or down
 window.addEventListener('resize', () => {
-  // Update Sizes
-  sizes.width = window.innerWidth
-  sizes.height = window.innerHeight
+  // Update Sizes to match the model stage
+  sizes.width = stage.clientWidth
+  sizes.height = stage.clientHeight
   // Update Camera
   camera.aspect = sizes.width / sizes.height
   camera.updateProjectionMatrix()

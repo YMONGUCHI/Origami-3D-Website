@@ -11,17 +11,6 @@ html{
   font-family: "Poppins", sans-serif;
 }
 
-.homepagetext {
-  color: white;
-  font-size: 40px;
-  position: absolute;
-  top:75%;
-  left:50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  white-space: nowrap;
-}
-
 .webgL {
   position: absolute;
   top: 0;

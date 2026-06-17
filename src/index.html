@@ -8,11 +8,45 @@
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <canvas class = "webgL"></canvas>
-  <h1 class = "homepagetext">
-    Where origami is the next big thing
-  </h1> 
-  </a>
+  <section class="hero-stage">
+    <canvas class="webgL"></canvas>
+    <h1 class="hero_title">Where origami is the next big thing</h1>
+  </section>
+
+  <section class="hero-intro">
+    <div class="hero-intro_inner">
+      <img class="hero-intro_photo" src="/Gallery_PNG/Sonobe_144pcs.png" alt="A hand-folded 144-piece Sonobe model">
+      <div class="hero-intro_text">
+        <p class="hero_subtitle">A digital archive of modular origami, folded by hand and rebuilt in 3D.</p>
+        <a class="hero_cta" href="/pages/models/index.html">Explore the collection</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="featured">
+    <div class="section-head">
+      <h2 class="section-head_title">Featured models</h2>
+      <a class="section-head_link" href="/pages/models/index.html">See all models &rarr;</a>
+    </div>
+    <div class="featured_track" id="featuredTrack"></div>
+  </section>
+
+  <section class="gallery">
+    <div class="section-head">
+      <h2 class="section-head_title">From the gallery</h2>
+      <a class="section-head_link" href="/pages/gallery/index.html">View the gallery &rarr;</a>
+    </div>
+    <div class="gallery_track" id="galleryTrack"></div>
+  </section>
+
+  <section class="about-blurb">
+    <div class="about-blurb_inner">
+      <h2 class="about-blurb_title">About this archive</h2>
+      <p class="about-blurb_text">Origami Collection is my personal archive of modular origami: models I've folded by hand and recreated in 3D to display virtually. I'm passionate about folding, studying, and one day bringing origami into real-world applications.</p>
+      <a class="about-blurb_link" href="/pages/about/index.html">Read more &rarr;</a>
+    </div>
+  </section>
+
   <script type="module" src="/home.js"></script>
 </body>
 </html>

@@ -1,0 +1,155 @@
+/* Homepage-only styles. This sheet loads through home.js, so it applies only to
+   the homepage; the full-screen viewer pages keep the global overflow lock. */
+
+html,
+body {
+  overflow-y: auto;          /* the homepage scrolls (unlike viewer pages) */
+}
+
+body {
+  background: black;         /* shows behind/between sections while scrolling */
+}
+
+/* Hero: full-viewport rotating model with the catchphrase overlaid on it. */
+.hero-stage {
+  position: relative;
+  height: 100vh;
+}
+
+/* Nav floats over the hero rather than taking flow space above it. */
+body nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.hero_title {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  width: 90%;
+  text-align: center;
+  color: white;
+  font-size: clamp(28px, 6vw, 48px);
+}
+
+/* The next part — a hand-folded photo beside the intro blurb + CTA. */
+.hero-intro {
+  border-top: 1px solid #2a2a2a;   /* full-width divider from the hero */
+  padding: 90px 24px;
+  color: white;
+}
+
+/* Centered, width-capped two-column block so it doesn't spread or drift. */
+.hero-intro_inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 350px;
+}
+
+.hero-intro_photo {
+  flex: 0 0 auto;
+  width: 300px;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.hero-intro_text {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  max-width: 400px;
+}
+
+.hero_subtitle {
+  font-size: clamp(16px, 2.4vw, 26px);
+  font-weight: 300;
+  opacity: 0.85;
+}
+
+/* Narrow screens: stack photo over text and center it. */
+@media (max-width: 700px) {
+  .hero-intro_text { align-items: center; text-align: center; }
+}
+
+.hero_cta {
+  padding: 12px 28px;
+  border: 1px solid white;
+  border-radius: 999px;
+  color: white;
+  text-decoration: none;
+  font-size: clamp(14px, 2vw, 18px);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.hero_cta:hover {
+  background-color: white;
+  color: black;
+}
+
+/* Shared editorial section header: title left, action link pulled up right. */
+.section-head {
+  max-width: 1240px;
+  margin: 0 auto 40px;
+  padding: 0 32px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+}
+.section-head_title {
+  font-size: clamp(28px, 5vw, 44px);
+}
+.section-head_link {
+  color: #9aa0a6;
+  text-decoration: none;
+  font-size: 16px;
+  white-space: nowrap;
+  transition: color .15s ease;
+}
+.section-head_link:hover { color: #00ff83; }
+
+/* About blurb: a short personal note with a link to the full About page. */
+.about-blurb {
+  border-top: 1px solid #2a2a2a;   /* divider from the section above */
+  padding: 90px 24px;
+  color: white;
+}
+
+.about-blurb_inner {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+}
+
+.about-blurb_title {
+  font-size: clamp(28px, 5vw, 44px);
+}
+
+.about-blurb_text {
+  font-size: clamp(15px, 2vw, 20px);
+  font-weight: 300;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+.about-blurb_link {
+  color: #9aa0a6;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color .15s ease;
+}
+.about-blurb_link:hover { color: #00ff83; }
