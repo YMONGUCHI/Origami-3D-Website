@@ -4,127 +4,15 @@ import gsap from "gsap"
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js'
 
-//Function main definition
-function gltfloader(gltf_file) {
-  var scene;
-  scene = createscene();
-  const materials = definematerials();
-  loadgltf(gltf_file, materials, scene);
-  materials.forEach((m, i) => bindColor(`colorPicker${i + 1}`, m));
-  var sizes;
-  sizes = definewindowsizes();
-  createlights(scene);
-  var camera;
-  camera = definecamera(scene, sizes);
-  var canvas, renderer;
-  [canvas,renderer] = definerenderer(sizes, scene, camera);
-  var controls;
-  controls = definecontrols(camera, canvas);
-  configureresize(controls, scene, camera, renderer);
-  dropdownanimation();
-  setupExpandable();
-}
-
-//Function for loading modules with 6 colors
-function gltfloader2(gltf_file) {
-  var scene;
-  scene = createscene();
-  const materials = definematerials2();
-  loadgltf2(gltf_file, ...materials, scene);
-  materials.forEach((m, i) => bindColor(`colorPicker${i + 1}`, m));
-  var sizes;
-  sizes = definewindowsizes();
-  createlights(scene);
-  var camera;
-  camera = definecamera(scene, sizes);
-  var canvas, renderer;
-  [canvas,renderer] = definerenderer(sizes, scene, camera);
-  var controls;
-  controls = definecontrols(camera, canvas);
-  configureresize(controls, scene, camera, renderer);
-  dropdownanimation();
-  setupExpandable();
-}
-
 // Create a new scene
 function createscene() {
   const scene = new THREE.Scene();
   return scene;
 }
 
-// Create a material in our shared style. Color is intentionally not set here:
-// each material's color is applied on load from its HTML color picker
-// (see bindColor/applyColor), so the picker `value` attributes are the single
-// source of truth for the colors.
+// Create a material with no color set
 function makeMaterial() {
   return new THREE.MeshStandardMaterial({ roughness: 0.2, side: THREE.DoubleSide });
-}
-
-// Materials for the standard 3-color models (colored via colorPicker1-3).
-function definematerials() {
-  return Array.from({ length: 3 }, makeMaterial);
-}
-
-// Materials for the 6-color models (colored via colorPicker1-6).
-function definematerials2() {
-  return Array.from({ length: 6 }, makeMaterial);
-}
-
-// Import GLTFLoader
-function loadgltf(gltf_file, materials, scene) {
-  const loader = new GLTFLoader();
-
-  loader.load(gltf_file,
-  function(gltf) {
-    // Each child of the model is one colored part.
-    const model = gltf.scene;
-    const objects = [...model.children];
-    objects.forEach((object, i) => {
-      if (!materials[i]) return;
-      object.material = materials[i];
-      scene.add(object);
-    });
-  },
-  function(error) {
-    console.error(error);
-    }
-  );
-}
-
-function loadgltf2(gltf_file, material1, material2, material3, material4, material5, material6, scene) {
-  const loader = new GLTFLoader();
-
-  loader.load(gltf_file, 
-  function(gltf) {
-    // Objects are broken down into three different parts where each one represents a specific color
-    const model = gltf.scene;
-    const object1 = model.getObjectByName('Solid1'); 
-    const object2 = model.getObjectByName('Solid2');
-    const object3 = model.getObjectByName('Solid3');
-    const object4 = model.getObjectByName('Solid4');
-    const object5 = model.getObjectByName('Solid5');
-    const object6 = model.getObjectByName('Solid6');
-
-    // Assign Objects its default colors
-    object1.material = material1;
-    object2.material = material2;
-    object3.material = material3;
-    object4.material = material4;
-    object5.material = material5;
-    object6.material = material6;
-
-    // Add objects to scene
-    scene.add(object1); 
-    scene.add(object2);
-    scene.add(object3);
-    scene.add(object4);
-    scene.add(object5);
-    scene.add(object6);
-    },
-  function(error) {
-    console.error(error);
-    }
-  );
 }
 
 // Changes color of objects into user's choices
@@ -179,12 +67,18 @@ function createlights(scene) {
   light5.position.set(0, 0, -10) //X, Y, Z
   light5.intensity = 100
   scene.add(light5)
+
+  // Light 6 — front (toward the camera) so the camera-facing side is lit
+  const light6 = new THREE.PointLight(0xffffff, 70, 100, 1.7)
+  light6.position.set(0, 0, 10) //X, Y, Z
+  light6.intensity = 100
+  scene.add(light6)
 }
 
 // Camera
-function definecamera(scene, sizes) {
+function definecamera(scene, sizes, z = 7) {
   const camera = new THREE.PerspectiveCamera(50, sizes.width / sizes.height, 0.1, 100)
-  camera.position.z = 7
+  camera.position.z = z
   scene.add(camera)
   return camera;
 }
@@ -210,7 +104,7 @@ function definecontrols(camera, canvas) {
 }
 
 // Allow resizing when the window is scaled up or down
-function configureresize(controls, scene, camera, renderer) {
+function configureresize(sizes, controls, scene, camera, renderer) {
   window.addEventListener('resize', () => {
     // Update Sizes
     sizes.width = window.innerWidth
@@ -242,5 +136,39 @@ function setupExpandable() {
   });
 }
 
+// Load model and give each part a material (by Solid name, else child order)
+function loadgltf(gltf_file, materials, scene) {
+  const loader = new GLTFLoader();
+  loader.load(gltf_file,
+    function (gltf) {
+      const model = gltf.scene;
+      const children = [...model.children];
+      materials.forEach((material, i) => {
+        const object = model.getObjectByName('Solid' + (i + 1)) || children[i];
+        if (!object) return;
+        object.material = material;
+        scene.add(object);
+      });
+    },
+    function (error) { console.error(error); }
+  );
+}
+
+// Render a model from its GLB file and palette
+function gltfloader(gltf_file, palette, options = {}) {
+  const { cameraZ = 7 } = options;
+  const scene = createscene();
+  const materials = palette.map(makeMaterial);
+  loadgltf(gltf_file, materials, scene);
+  materials.forEach((m, i) => bindColor(`colorPicker${i + 1}`, m));
+  const sizes = definewindowsizes();
+  createlights(scene);
+  const camera = definecamera(scene, sizes, cameraZ);
+  const [canvas, renderer] = definerenderer(sizes, scene, camera);
+  const controls = definecontrols(camera, canvas);
+  configureresize(sizes, controls, scene, camera, renderer);
+  dropdownanimation();
+  setupExpandable();
+}
+
 export {gltfloader}
-export {gltfloader2}
