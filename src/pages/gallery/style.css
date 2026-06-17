@@ -5,7 +5,7 @@
 }
 
 body,
-html{
+html {
   overflow-x: hidden;
   overflow-y: hidden;
   font-family: "Poppins", sans-serif;
@@ -16,17 +16,40 @@ html {
   overflow-y: scroll;
 }
 
-
-
-
-
+/* Same card grid as the Models page */
 #imageContainer {
+  padding: 40px 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 250px);
+  justify-content: center;     /* center the 4-column block; extra width -> side margins */
+  gap: 150px 50px;             /* row-gap  column-gap */
+}
+
+.model-card {
+  width: 250px;
+  color: white;
+  text-align: left;
+  background: #161616;
+  border-radius: 12px;
+  padding: 12px 12px 0;
   overflow: hidden;
-  max-height: 80vh;
-  padding: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 50px;
+  transition: transform .15s ease;
+}
+.model-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+.model-card p { margin: 0 0 10px; }
+.model-type  { font-size: 18px; font-weight: 600; }
+.model-shape { font-size: 14px; font-weight: 400; }
+.model-card:hover { transform: translateY(-6px); }
+
+/* Narrow screens: keep 4 per row, let columns shrink to fit (no h-scroll) */
+@media (max-width: 1200px) {
+  #imageContainer {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }

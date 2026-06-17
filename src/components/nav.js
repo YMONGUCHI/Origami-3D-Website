@@ -5,7 +5,7 @@ import './nav.css';
 const LINKS = [
   ['/pages/models/index.html', 'Models'],
   ['/pages/gallery/index.html', 'Gallery'],
-  ['/pages/about_us/index.html', 'About Us'],
+  ['/pages/about/index.html', 'About'],
 ];
 
 export function mountNav() {

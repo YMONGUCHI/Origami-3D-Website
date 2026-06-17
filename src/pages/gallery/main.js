@@ -1,7 +1,9 @@
 import './style.css'
 import gsap from "gsap"
 import { mountNav } from '../../components/nav.js';
+import { mountFooter } from '../../components/footer.js';
 mountNav();
+mountFooter();
 
 // Container Loader
 function Container_Loader(array, model_name, png_file) {
@@ -9,35 +11,26 @@ function Container_Loader(array, model_name, png_file) {
     array.push(item_array);
 }
 
+// One card (type/shape caption lines + photo), same format as the Models page.
+function makeCard(name, png) {
+    var card = document.createElement('div');
+    card.className = 'model-card';
+    var p = document.createElement('p');
+    var parts = name.split(' - ');
+    p.innerHTML = '<span class="model-type">' + parts[0] + '</span>'
+        + (parts[1] ? '<br><span class="model-shape">' + parts[1] + '</span>' : '');
+    card.appendChild(p);
+    var image = new Image();
+    image.src = png;
+    image.alt = name;
+    card.appendChild(image);
+    return card;
+}
+
 function PNG_Loader(array) {
     var container = document.getElementById('imageContainer');
     for (var i = 0; i < array.length; ++i) {
-        var currentItem = array[i];
-        // Load Image
-        var image = new Image();
-        image.src = currentItem[1];
-        image.style.width = "80%";
-        var imageAnchor = document.createElement('a');
-        imageAnchor.appendChild(image);
-        container.appendChild(imageAnchor);
-
-        // Load Model_name
-        var modelName = document.createElement('p');
-        modelName.textContent = currentItem[0];
-        var modelNameAnchor = document.createElement('a');
-        modelNameAnchor.appendChild(modelName);
-        modelNameAnchor.style.color = "white";
-        container.appendChild(modelNameAnchor);
-
-        // Position the image
-        var column = (i % 4) * 300;
-        var row = Math.floor(i / 4) * 400;
-        imageAnchor.style.position = "absolute";
-        imageAnchor.style.left = column + 220 + "px";
-        imageAnchor.style.top = row + 180 + "px";
-        modelNameAnchor.style.position = "absolute";
-        modelNameAnchor.style.left = column + 240 + "px";
-        modelNameAnchor.style.top = (row + 440) +"px";
+        container.appendChild(makeCard(array[i][0], array[i][1]));
     }
 }
 

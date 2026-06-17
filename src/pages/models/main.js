@@ -2,7 +2,9 @@ import './style.css'
 import gsap from "gsap"
 import { MODELS } from '../../models.js'
 import { mountNav } from '../../components/nav.js';
+import { mountFooter } from '../../components/footer.js';
 mountNav();
+mountFooter();
 
 // One card (type/shape name lines + thumbnail) for a model.
 function makeCard(model, slug) {
