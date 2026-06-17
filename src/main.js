@@ -3,6 +3,7 @@ import './style.css'
 import gsap from "gsap"
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js'
+import { bindColorPickers } from './components/colorSelector.js'
 
 // Create a new scene
 function createscene() {
@@ -13,18 +14,6 @@ function createscene() {
 // Create a material with no color set
 function makeMaterial() {
   return new THREE.MeshStandardMaterial({ roughness: 0.2, side: THREE.DoubleSide });
-}
-
-// Changes color of objects into user's choices
-function applyColor(pickerId, material) {
-  var color = document.getElementById(pickerId).value;
-  material.color.set(color);
-}
-
-// Set a material's color from a picker, and keep it in sync on change
-function bindColor(pickerId, material) {
-  applyColor(pickerId, material);
-  document.getElementById(pickerId).addEventListener('input', () => applyColor(pickerId, material));
 }
 
 // Window Sizes
@@ -128,14 +117,6 @@ function dropdownanimation() {
   tl.fromTo('nav', {y: "-100%" }, {y: "0%"})
 }
 
-// Handler
-function setupExpandable() {
-  document.body.addEventListener("click", (ev) => {
-    if (!ev.target.closest(".expandable_title-bar")) return;
-    ev.target.closest(".expandable").classList.toggle("expandable-open");
-  });
-}
-
 // Load model and give each part a material (by Solid name, else child order)
 function loadgltf(gltf_file, materials, scene) {
   const loader = new GLTFLoader();
@@ -160,7 +141,7 @@ function gltfloader(gltf_file, palette, options = {}) {
   const scene = createscene();
   const materials = palette.map(makeMaterial);
   loadgltf(gltf_file, materials, scene);
-  materials.forEach((m, i) => bindColor(`colorPicker${i + 1}`, m));
+  bindColorPickers(materials);
   const sizes = definewindowsizes();
   createlights(scene);
   const camera = definecamera(scene, sizes, cameraZ);
@@ -168,7 +149,6 @@ function gltfloader(gltf_file, palette, options = {}) {
   const controls = definecontrols(camera, canvas);
   configureresize(sizes, controls, scene, camera, renderer);
   dropdownanimation();
-  setupExpandable();
 }
 
 export {gltfloader}

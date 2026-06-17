@@ -1,17 +1,28 @@
 // Single source of truth for every model. Both the viewer pages (via page.js)
 // and the Models catalog read from here. Keyed by slug, which matches the
-// folder under /model_pages/ (e.g. "BowTie/BowTie_Hexahedron").
+// folder under /model_pages/ (e.g. "sonobe/octahedron/type-1/size-1").
 //
-//   name      display name (page title bar + catalog card)
-//   glb       model file under /GLB_Files/
-//   thumbnail catalog image under /Models_PNG/
-//   category  used for catalog filtering
-//   palette   one color per part; length = number of colored parts (3 or 6)
-//   piece     optional individual-piece image for the info panel
-//   info      { label: value } fields shown in the expandable info panel
+// Required: name, glb, thumbnail, palette.
+// Everything below is optional; the info panel renders only what is present.
+//
+//   name        display name (page title bar + catalog card)
+//   glb         model file under /GLB_Files/
+//   thumbnail   catalog image under /Models_PNG/
+//   palette     one color per part; length = number of colored parts
+//   piece       individual-piece image for the info panel
+//   type        family used for catalog grouping
+//   shape       geometric shape (also used for grouping)
+//   pieces      number of modules
+//   tetrahedra  number of constituent tetrahedra
+//   quadrahedra number of constituent quadrahedra
+//   pentahedra  number of constituent pentahedra
+//   hexahedra   number of constituent hexahedra
+//   variation   variation number (present => this is variation #N)
+//   inverted    true when the model is the inverted coloring
+//   cameraZ     camera distance override for the viewer
 
 export const MODELS = {
-  "TetraSonobe": {
+  "sonobe/tetrahedron": {
     name: "Sonobe - Tetrahedron",
     glb: "/GLB_Files/sonobemoduletetrahedron.glb",
     thumbnail: "/Models_PNG/Sonobe_Tetrahedron.png",
@@ -22,7 +33,8 @@ export const MODELS = {
     pieces: 3,
     tetrahedra: 2,
   },
-  "TetraSonobe/TetraSonobe_Modif1": {
+  "sonobe/tetrahedron/variant-1": {
+    variation: 1,
     name: "Sonobe - Tetrahedron Var. 1",
     glb: "/GLB_Files/sonobemoduletetrahedron_modif1.glb",
     thumbnail: "/Models_PNG/Sonobe_Tetrahedron_Modif1.png",
@@ -33,7 +45,8 @@ export const MODELS = {
     pieces: 3,
     tetrahedra: 2,
   },
-  "TetraSonobe/TetraSonobe_Modif2": {
+  "sonobe/tetrahedron/variant-2": {
+    variation: 2,
     name: "Sonobe - Tetrahedron Var. 2",
     glb: "/GLB_Files/sonobemoduletetrahedron_modif2.glb",
     thumbnail: "/Models_PNG/Sonobe_Tetrahedron_Modif2.png",
@@ -44,7 +57,8 @@ export const MODELS = {
     pieces: 3,
     tetrahedra: 2,
   },
-  "TetraSonobe/TetraSonobe_Modif3": {
+  "sonobe/tetrahedron/variant-3": {
+    variation: 3,
     name: "Sonobe - Tetrahedron Var. 3",
     glb: "/GLB_Files/sonobemoduletetrahedron_modif3.glb",
     thumbnail: "/Models_PNG/Sonobe_Tetrahedron_Modif3.png",
@@ -55,7 +69,7 @@ export const MODELS = {
     pieces: 3,
     tetrahedra: 2,
   },
-  "HexaSonobe": {
+  "sonobe/hexahedron/size-1": {
     name: "Sonobe - Hexahedron",
     glb: "/GLB_Files/sonobemodulehexahedron.glb",
     thumbnail: "/Models_PNG/Sonobe_Hexahedron.png",
@@ -66,7 +80,8 @@ export const MODELS = {
     pieces: 6,
     tetrahedra: 4,
   },
-  "HexaSonobe/HexaSonobe_Modif1": {
+  "sonobe/hexahedron/size-1/variant-1": {
+    variation: 1,
     name: "Sonobe - Hexahedron Var. 1",
     glb: "/GLB_Files/sonobemodulehexahedron_modif1.glb",
     thumbnail: "/Models_PNG/Sonobe_Hexahedron_Modif1.png",
@@ -77,7 +92,8 @@ export const MODELS = {
     pieces: 6,
     tetrahedra: 4,
   },
-  "HexaSonobe/HexaSonobe_Modif2": {
+  "sonobe/hexahedron/size-1/variant-2": {
+    variation: 2,
     name: "Sonobe - Hexahedron Var. 2",
     glb: "/GLB_Files/sonobemodulehexahedron_modif2.glb",
     thumbnail: "/Models_PNG/Sonobe_Hexahedron_Modif2.png",
@@ -88,7 +104,8 @@ export const MODELS = {
     pieces: 6,
     tetrahedra: 4,
   },
-  "HexaSonobe/HexaSonobe_Modif3": {
+  "sonobe/hexahedron/size-1/variant-3": {
+    variation: 3,
     name: "Sonobe - Hexahedron Var. 3",
     glb: "/GLB_Files/sonobemodulehexahedron_modif3.glb",
     thumbnail: "/Models_PNG/Sonobe_Hexahedron_Modif3.png",
@@ -99,7 +116,7 @@ export const MODELS = {
     pieces: 6,
     tetrahedra: 4,
   },
-  "OctoSonobe": {
+  "sonobe/octahedron/type-1/size-1": {
     name: "Sonobe - Octahedron",
     glb: "/GLB_Files/sonobemoduleoctahedron.glb",
     thumbnail: "/Models_PNG/Sonobe_Octahedron.png",
@@ -109,8 +126,10 @@ export const MODELS = {
     shape: "Octahedron",
     pieces: 12,
     tetrahedra: 8,
+    quadrahedra: 6,
   },
-  "OctoSonobe/OctaSonobe_Modif1": {
+  "sonobe/octahedron/type-1/size-1/variant-1": {
+    variation: 1,
     name: "Sonobe - Octahedron Var. 1",
     glb: "/GLB_Files/sonobemoduleoctahedron_modif1.glb",
     thumbnail: "/Models_PNG/Sonobe_Octahedron_Modif1.png",
@@ -120,8 +139,10 @@ export const MODELS = {
     shape: "Octahedron",
     pieces: 12,
     tetrahedra: 8,
+    quadrahedra: 6,
   },
-  "OctoSonobe/OctaSonobe_Modif2": {
+  "sonobe/octahedron/type-1/size-1/variant-2": {
+    variation: 2,
     name: "Sonobe - Octahedron Var. 2",
     glb: "/GLB_Files/sonobemoduleoctahedron_modif2.glb",
     thumbnail: "/Models_PNG/Sonobe_Octahedron_Modif2.png",
@@ -131,8 +152,10 @@ export const MODELS = {
     shape: "Octahedron",
     pieces: 12,
     tetrahedra: 8,
+    quadrahedra: 6,
   },
-  "OctoSonobe/OctaSonobe_Modif3": {
+  "sonobe/octahedron/type-1/size-1/variant-3": {
+    variation: 3,
     name: "Sonobe - Octahedron Var. 3",
     glb: "/GLB_Files/sonobemoduleoctahedron_modif3.glb",
     thumbnail: "/Models_PNG/Sonobe_Octahedron_Modif3.png",
@@ -142,8 +165,9 @@ export const MODELS = {
     shape: "Octahedron",
     pieces: 12,
     tetrahedra: 8,
+    quadrahedra: 6,
   },
-  "IcoSonobe": {
+  "sonobe/icosahedron/type-1/size-1": {
     name: "Sonobe - Icosahedron",
     glb: "/GLB_Files/sonobemoduleicosahedron.glb",
     thumbnail: "/Models_PNG/Sonobe_Icosahedron.png",
@@ -153,8 +177,10 @@ export const MODELS = {
     shape: "Icosahedron",
     pieces: 30,
     tetrahedra: 20,
+    pentahedra: 12,
   },
-  "IcoSonobe/IcoSonobe_Modif1": {
+  "sonobe/icosahedron/type-1/size-1/variant-1": {
+    variation: 1,
     name: "Sonobe - Icosahedron Var. 1",
     glb: "/GLB_Files/sonobemoduleicosahedronmodif1.glb",
     thumbnail: "/Models_PNG/Sonobe_Icosahedron_Modif1.png",
@@ -164,8 +190,10 @@ export const MODELS = {
     shape: "Icosahedron",
     pieces: 30,
     tetrahedra: 20,
+    pentahedra: 12,
   },
-  "IcoSonobe/IcoSonobe_Modif2": {
+  "sonobe/icosahedron/type-1/size-1/variant-2": {
+    variation: 2,
     name: "Sonobe - Icosahedron Var. 2",
     glb: "/GLB_Files/sonobemoduleicosahedronmodif2.glb",
     thumbnail: "/Models_PNG/Sonobe_Icosahedron_Modif2.png",
@@ -175,8 +203,10 @@ export const MODELS = {
     shape: "Icosahedron",
     pieces: 30,
     tetrahedra: 20,
+    pentahedra: 12,
   },
-  "IcoSonobe/IcoSonobe_Modif3": {
+  "sonobe/icosahedron/type-1/size-1/variant-3": {
+    variation: 3,
     name: "Sonobe - Icosahedron Var. 3",
     glb: "/GLB_Files/sonobemoduleicosahedronmodif3.glb",
     thumbnail: "/Models_PNG/Sonobe_Icosahedron_Modif3.png",
@@ -186,8 +216,9 @@ export const MODELS = {
     shape: "Icosahedron",
     pieces: 30,
     tetrahedra: 20,
+    pentahedra: 12,
   },
-  "IcoSonobe/IcoSonobe_90pcs": {
+  "sonobe/icosahedron/type-2/size-1": {
     name: "Sonobe - 90pcs",
     glb: "/GLB_Files/sonobemoduleicosahedron_90pcs.glb",
     thumbnail: "/Models_PNG/Sonobe_90pcs.png",
@@ -196,8 +227,11 @@ export const MODELS = {
     type: "Sonobe",
     shape: "Icosahedron",
     pieces: 90,
+    tetrahedra: 60,
+    pentahedra: 12,
+    hexahedra: 20,
   },
-  "IcoSonobe/IcoSonobe_120pcs": {
+  "sonobe/icosahedron/type-1/size-2": {
     name: "Sonobe - 120pcs",
     glb: "/GLB_Files/sonobemoduleicosahedron_120pcs.glb",
     thumbnail: "/Models_PNG/Sonobe_120pcs.png",
@@ -206,8 +240,11 @@ export const MODELS = {
     type: "Sonobe",
     shape: "Icosahedron",
     pieces: 120,
+    tetrahedra: 80,
+    pentahedra: 12,
+    hexahedra: 30,
   },
-  "IcoSonobe/IcoSonobe_270pcs": {
+  "sonobe/icosahedron/type-1/size-3": {
     name: "Sonobe - 270pcs",
     glb: "/GLB_Files/sonobemoduleicosahedron_270pcs.glb",
     thumbnail: "/Models_PNG/Sonobe_270pcs.png",
@@ -216,8 +253,11 @@ export const MODELS = {
     type: "Sonobe",
     shape: "Icosahedron",
     pieces: 270,
+    tetrahedra: 180,
+    pentahedra: 12,
+    hexahedra: 80,
   },
-  "IcoSonobe/IcoSonobe_360pcs": {
+  "sonobe/icosahedron/type-2/size-2": {
     name: "Sonobe - 360pcs",
     glb: "/GLB_Files/sonobemoduleicosahedron_360pcs.glb",
     thumbnail: "/Models_PNG/Sonobe_360pcs.png",
@@ -226,19 +266,24 @@ export const MODELS = {
     type: "Sonobe",
     shape: "Icosahedron",
     pieces: 360,
+    tetrahedra: 240,
+    pentahedra: 12,
+    hexahedra: 110,
   },
-  "HexaOctaSonobe": {
+  "sonobe/octahedron/type-2/size-1": {
     name: "Sonobe - HexaOctaCompound",
     glb: "/GLB_Files/sonobemodulehexaoctahedron.glb",
     thumbnail: "/Models_PNG/Sonobe_HexaOctahedron.png",
     palette: ["#00ff83", "#0400ff", "#aa22ff"],
     piece: "/Individual_Pieces/sonobepiece.png",
     type: "Sonobe",
-    shape: "Compound",
+    shape: "Octahedron",
     pieces: 36,
-    tetrahedra: 24,
+    tetrahedra: 25,
+    quadrahedra: 6,
+    hexahedra: 8,
   },
-  "HexaSonobesize2": {
+  "sonobe/hexahedron/size-2": {
     name: "Sonobe - Hexahedron size 2",
     glb: "/GLB_Files/sonobemodulehexahedronsize2.glb",
     thumbnail: "/Models_PNG/Sonobe_Hexahedronsize2.png",
@@ -247,9 +292,10 @@ export const MODELS = {
     type: "Sonobe",
     shape: "Hexahedron",
     pieces: 24,
-    tetrahedra: 4,
+    tetrahedra: 8,
+    quadrahedra: 6,
   },
-  "HexaSonobesize3": {
+  "sonobe/hexahedron/size-3": {
     name: "Sonobe - Hexahedron size 3",
     glb: "/GLB_Files/sonobemodulehexahedronsize3.glb",
     thumbnail: "/Models_PNG/Sonobe_Hexahedronsize3.png",
@@ -258,20 +304,23 @@ export const MODELS = {
     type: "Sonobe",
     shape: "Hexahedron",
     pieces: 54,
-    tetrahedra: 4,
+    tetrahedra: 8,
+    quadrahedra: 24,
   },
-  "48pcsSonobe": {
+  "sonobe/octahedron/type-1/size-2": {
     name: "Sonobe - 48pcs",
     glb: "/GLB_Files/sonobemodule48pcs.glb",
     thumbnail: "/Models_PNG/Sonobe_48pcs.png",
     palette: ["#00ff83", "#0400ff", "#aa22ff"],
     piece: "/Individual_Pieces/sonobepiece.png",
     type: "Sonobe",
-    shape: "Compound",
+    shape: "Octahedron",
     pieces: 48,
     tetrahedra: 32,
+    quadrahedra: 6,
+    hexahedra: 12,
   },
-  "108pcsSonobe": {
+  "sonobe/octahedron/type-1/size-3": {
     name: "Sonobe - 108pcs",
     glb: "/GLB_Files/sonobemoduleoctahedron_108pcs.glb",
     thumbnail: "/Models_PNG/Sonobe_108pcs.png",
@@ -280,8 +329,11 @@ export const MODELS = {
     type: "Sonobe",
     shape: "Octahedron",
     pieces: 108,
+    tetrahedra: 72,
+    quadrahedra: 6,
+    hexahedra: 32,
   },
-  "144pcsSonobe": {
+  "sonobe/octahedron/type-2/size-2": {
     name: "Sonobe - 144pcs",
     glb: "/GLB_Files/sonobemodule144pcs.glb",
     thumbnail: "/Models_PNG/Sonobe_144pcs.png",
@@ -290,41 +342,51 @@ export const MODELS = {
     type: "Sonobe",
     shape: "Octahedron",
     pieces: 144,
+    tetrahedra: 96,
+    quadrahedra: 6,
+    hexahedra: 45,
   },
-  "SonobePlane/Sonobe_Plane_15pcs": {
+  "sonobe/plane/pentagon": {
     name: "Sonobe - Plane 15pcs",
     glb: "/GLB_Files/sonobemoduleplane_15pcs.glb",
     thumbnail: "/Models_PNG/Sonobe_Plane_15pcs.png",
     palette: ["#00ff83", "#0400ff", "#aa22ff"],
     piece: "/Individual_Pieces/sonobepiece.png",
     type: "Sonobe",
-    shape: "Plane",
+    shape: "Pentagon",
     pieces: 15,
     tetrahedra: 10,
+    quadrahedra: 5,
+    pentahedra: 2,
   },
-  "SonobePlane/Sonobe_Plane_18pcs": {
+  "sonobe/plane/hexagon/size-1": {
     name: "Sonobe - Plane 18pcs",
     glb: "/GLB_Files/sonobemoduleplane_18pcs.glb",
     thumbnail: "/Models_PNG/Sonobe_Plane_18pcs.png",
     palette: ["#00ff83", "#0400ff", "#aa22ff"],
     piece: "/Individual_Pieces/sonobepiece.png",
     type: "Sonobe",
-    shape: "Plane",
+    shape: "Hexagon",
     pieces: 18,
     tetrahedra: 12,
+    quadrahedra: 6,
+    hexahedra: 6,
   },
-  "SonobePlane/Sonobe_Plane_72pcs": {
+  "sonobe/plane/hexagon/size-2": {
     name: "Sonobe - Plane 72pcs",
     glb: "/GLB_Files/sonobemoduleplane_72pcs.glb",
     thumbnail: "/Models_PNG/Sonobe_Plane_72pcs.png",
     palette: ["#00ff83", "#0400ff", "#aa22ff"],
     piece: "/Individual_Pieces/sonobepiece.png",
     type: "Sonobe",
-    shape: "Plane",
+    shape: "Hexagon",
     pieces: 72,
     tetrahedra: 48,
+    quadrahedra: 6,
+    hexahedra: 20,
   },
-  "OctoSonobe/OctaSonobe_Inverse": {
+  "sonobe/octahedron/type-1/size-1/inverted": {
+    inverted: true,
     name: "Sonobe - 12pcs Inverted",
     glb: "/GLB_Files/sonobemoduleoctahedron_inverse.glb",
     thumbnail: "/Models_PNG/Sonobe_Octahedron_Inverse.png",
@@ -334,19 +396,24 @@ export const MODELS = {
     shape: "Octahedron",
     pieces: 12,
     tetrahedra: 8,
+    quadrahedra: 6,
   },
-  "HexaOctaSonobe/HexaOctaSonobe_Inverse": {
+  "sonobe/octahedron/type-2/size-1/inverted": {
+    inverted: true,
     name: "Sonobe - 36pcs Inverted",
     glb: "/GLB_Files/sonobemoduleoctahedron_36pcs_inverse.glb",
     thumbnail: "/Models_PNG/Sonobe_HexaOctahedron_Inverse.png",
     palette: ["#00ff83", "#0400ff", "#aa22ff"],
     piece: "/Individual_Pieces/sonobepiece.png",
     type: "Sonobe",
-    shape: "Compound",
+    shape: "Octahedron",
     pieces: 36,
-    tetrahedra: 24,
+    tetrahedra: 25,
+    quadrahedra: 6,
+    hexahedra: 8,
   },
-  "IcoSonobe/IcoSonobe_Inverse": {
+  "sonobe/icosahedron/type-1/size-1/inverted": {
+    inverted: true,
     name: "Sonobe - 30pcs Inverted",
     glb: "/GLB_Files/sonobemoduleicosahedroninverse.glb",
     thumbnail: "/Models_PNG/Sonobe_Icosahedron_Inverse.png",
@@ -356,8 +423,10 @@ export const MODELS = {
     shape: "Icosahedron",
     pieces: 30,
     tetrahedra: 20,
+    pentahedra: 12,
   },
-  "IcoSonobe/IcoSonobe_90pcs_Inverse": {
+  "sonobe/icosahedron/type-2/size-1/inverted": {
+    inverted: true,
     name: "Sonobe - 90pcs Inverted",
     glb: "/GLB_Files/sonobemoduleicosahedron_90pcs_inverse.glb",
     thumbnail: "/Models_PNG/Sonobe_Icosahedron_90pcs_Inverse.png",
@@ -367,8 +436,11 @@ export const MODELS = {
     shape: "Icosahedron",
     pieces: 90,
     tetrahedra: 60,
+    pentahedra: 12,
+    hexahedra: 20,
   },
-  "IcoSonobe/IcoSonobe_120pcs_Inverse": {
+  "sonobe/icosahedron/type-1/size-2/inverted": {
+    inverted: true,
     name: "Sonobe - 120pcs Inverted",
     glb: "/GLB_Files/sonobemoduleicosahedron_120pcs_inverse.glb",
     thumbnail: "/Models_PNG/Sonobe_Icosahedron_120pcs_Inverse.png",
@@ -376,10 +448,13 @@ export const MODELS = {
     piece: "/Individual_Pieces/sonobepiece.png",
     type: "Sonobe",
     shape: "Icosahedron",
-    pieces: 30,
-    tetrahedra: 20,
+    pieces: 120,
+    tetrahedra: 80,
+    pentahedra: 12,
+    hexahedra: 30,
   },
-  "IcoSonobe/IcoSonobe_270pcs_Inverse": {
+  "sonobe/icosahedron/type-1/size-3/inverted": {
+    inverted: true,
     name: "Sonobe - 270pcs Inverted",
     glb: "/GLB_Files/sonobemoduleicosahedron_270pcs_inverse.glb",
     thumbnail: "/Models_PNG/Sonobe_Icosahedron_270pcs_Inverse.png",
@@ -389,8 +464,11 @@ export const MODELS = {
     shape: "Icosahedron",
     pieces: 270,
     tetrahedra: 180,
+    pentahedra: 12,
+    hexahedra: 80,
   },
-  "IcoSonobe/IcoSonobe_360pcs_Inverse": {
+  "sonobe/icosahedron/type-2/size-2/inverted": {
+    inverted: true,
     name: "Sonobe - 360pcs Inverted",
     glb: "/GLB_Files/sonobemoduleicosahedron_360pcs_inverse.glb",
     thumbnail: "/Models_PNG/Sonobe_Icosahedron_360pcs_Inverse.png",
@@ -399,8 +477,11 @@ export const MODELS = {
     type: "Sonobe",
     shape: "Icosahedron",
     pieces: 360,
+    tetrahedra: 240,
+    pentahedra: 12,
+    hexahedra: 110,
   },
-  "BowTie/BowTie_Hexahedron": {
+  "bow-tie/hexahedron": {
     name: "Bow Tie Motif - Hexahedron",
     glb: "/GLB_Files/bowtiemodulehexahedron.glb",
     thumbnail: "/Models_PNG/BowTieMotif_Hexahedron.png",
@@ -411,7 +492,7 @@ export const MODELS = {
     pieces: 12,
     tetrahedra: 4,
   },
-  "BowTie/BowTie_Octahedron": {
+  "bow-tie/octahedron": {
     name: "Bow Tie Motif - Octahedron",
     glb: "/GLB_Files/bowtiemoduleoctahedron.glb",
     thumbnail: "/Models_PNG/BowTieMotif_Octahedron.png",
@@ -422,7 +503,7 @@ export const MODELS = {
     pieces: 12,
     tetrahedra: 4,
   },
-  "BowTie/BowTie_Icosahedron": {
+  "bow-tie/icosahedron": {
     name: "Bow Tie Motif - Icosahedron",
     glb: "/GLB_Files/bowtiemoduleicosahedron.glb",
     thumbnail: "/Models_PNG/BowTieMotif_Icosahedron.png",
@@ -433,7 +514,7 @@ export const MODELS = {
     pieces: 30,
     tetrahedra: 20,
   },
-  "Poke/Poke_Tetrahedron": {
+  "poke/tetrahedron": {
     name: "Poke - Tetrahedron",
     glb: "/GLB_Files/pokemoduletetrahedron.glb",
     thumbnail: "/Models_PNG/Poke_Tetrahedron.png",
@@ -444,7 +525,7 @@ export const MODELS = {
     pieces: 6,
     tetrahedra: 1,
   },
-  "Poke/Poke_Hexahedron": {
+  "poke/hexahedron": {
     name: "Poke - Hexahedron",
     glb: "/GLB_Files/pokemodulehexahedron.glb",
     thumbnail: "/Models_PNG/Poke_Hexahedron.png",
@@ -455,7 +536,7 @@ export const MODELS = {
     pieces: 12,
     tetrahedra: 4,
   },
-  "Poke/Poke_Octahedron": {
+  "poke/octahedron": {
     name: "Poke - Octahedron",
     glb: "/GLB_Files/pokemoduleoctahedron.glb",
     thumbnail: "/Models_PNG/Poke_Octahedron.png",
@@ -466,7 +547,7 @@ export const MODELS = {
     pieces: 12,
     tetrahedra: 4,
   },
-  "Poke/Poke_EnlargedOctahedron": {
+  "poke/enlarged-octahedron": {
     name: "Poke - Enlarged Octahedron",
     glb: "/GLB_Files/pokemoduleenlargedoctahedron.glb",
     thumbnail: "/Models_PNG/Poke_EnlargedOctahedron.png",
@@ -477,7 +558,7 @@ export const MODELS = {
     pieces: 6,
     tetrahedra: 1,
   },
-  "Pokev2/Pokev2_Tetrahedron": {
+  "poke-v2/tetrahedron": {
     name: "Poke v2 - Tetrahedron",
     glb: "/GLB_Files/pokev2moduletetrahedron.glb",
     thumbnail: "/Models_PNG/Pokev2_Tetrahedron.png",
@@ -488,7 +569,7 @@ export const MODELS = {
     pieces: 10,
     tetrahedra: 1,
   },
-  "Pokev2/Pokev2_Octahedron": {
+  "poke-v2/octahedron": {
     name: "Poke v2 - Octahedron",
     glb: "/GLB_Files/pokev2moduleoctahedron.glb",
     thumbnail: "/Models_PNG/Pokev2_Octahedron.png",
@@ -499,7 +580,7 @@ export const MODELS = {
     pieces: 20,
     tetrahedra: 4,
   },
-  "Fuse/Fuse_Tetrahedron": {
+  "fuse/tetrahedron": {
     name: "Fuse - Tetrahedron",
     glb: "/GLB_Files/fusemoduletetrahedron.glb",
     thumbnail: "/Models_PNG/Fuse_Tetrahedron.png",
@@ -507,7 +588,7 @@ export const MODELS = {
     cameraZ: 10,
     type: "Fuse",
   },
-  "Fuse/Fuse_ExtrudedTetrahedron": {
+  "fuse/enlarged-tetrahedron": {
     name: "Fuse - Enlarged Tetrahedron",
     glb: "/GLB_Files/fusemoduleenlargedtetrahedron.glb",
     thumbnail: "/Models_PNG/Fuse_EnlargedTetrahedron.png",
@@ -515,7 +596,7 @@ export const MODELS = {
     cameraZ: 10,
     type: "Fuse",
   },
-  "Uncategorized/BoxTriangle": {
+  "misc/box-triangle": {
     name: "Box Triangle",
     glb: "/GLB_Files/boxtriangle.glb",
     thumbnail: "/Models_PNG/BoxTriangle.png",
@@ -523,7 +604,7 @@ export const MODELS = {
     cameraZ: 15,
     type: "Misc",
   },
-  "Uncategorized/Octahedron2": {
+  "misc/octahedron-2": {
     name: "Octahedron 2",
     glb: "/GLB_Files/octahedron2.glb",
     thumbnail: "/Models_PNG/Octahedron2.png",
@@ -531,14 +612,14 @@ export const MODELS = {
     cameraZ: 10,
     type: "Misc",
   },
-  "Uncategorized/Octahedron3": {
+  "misc/octahedron-3": {
     name: "Octahedron 3",
     glb: "/GLB_Files/octahedron3.glb",
     thumbnail: "/Models_PNG/Octahedron3.png",
     palette: ["#00ff83", "#0400ff", "#aa22ff"],
     type: "Misc",
   },
-  "Uncategorized/Icosahedron2": {
+  "misc/icosahedron-2": {
     name: "Icosahedron 2",
     glb: "/GLB_Files/icosahedron2.glb",
     thumbnail: "/Models_PNG/Icosahedron2.png",
@@ -546,35 +627,35 @@ export const MODELS = {
     cameraZ: 10,
     type: "Misc",
   },
-  "Uncategorized/Icosahedron3": {
+  "misc/icosahedron-3": {
     name: "Icosahedron 3",
     glb: "/GLB_Files/icosahedron3.glb",
     thumbnail: "/Models_PNG/Icosahedron3.png",
     palette: ["#00ff83", "#0400ff", "#aa22ff", "#ffffff", "#ffffff", "#ffffff"],
     type: "Misc",
   },
-  "Uncategorized/Icosahedron4": {
+  "misc/icosahedron-4": {
     name: "Icosahedron 4",
     glb: "/GLB_Files/icosahedron4.glb",
     thumbnail: "/Models_PNG/Icosahedron4.png",
     palette: ["#00ff83", "#0400ff", "#aa22ff", "#ffffff", "#ffffff", "#ffffff"],
     type: "Misc",
   },
-  "Uncategorized/Icosahedron5": {
+  "misc/icosahedron-5": {
     name: "Icosahedron 5",
     glb: "/GLB_Files/icosahedron5.glb",
     thumbnail: "/Models_PNG/Icosahedron5.png",
     palette: ["#00ff83", "#0400ff", "#aa22ff", "#ffffff", "#ffffff", "#ffffff"],
     type: "Misc",
   },
-  "Uncategorized/Icosahedron6": {
+  "misc/icosahedron-6": {
     name: "Icosahedron 6",
     glb: "/GLB_Files/icosahedron6.glb",
     thumbnail: "/Models_PNG/Icosahedron6.png",
     palette: ["#00ff83", "#0400ff", "#aa22ff", "#ffffff", "#ffffff", "#ffffff"],
     type: "Misc",
   },
-  "Uncategorized/Icosahedron7": {
+  "misc/icosahedron-7": {
     name: "Icosahedron 7",
     glb: "/GLB_Files/icosahedron7.glb",
     thumbnail: "/Models_PNG/Icosahedron7.png",
@@ -582,7 +663,7 @@ export const MODELS = {
     cameraZ: 10,
     type: "Misc",
   },
-  "Uncategorized/CrystalShape": {
+  "misc/crystal-shape": {
     name: "Crystal Shape",
     glb: "/GLB_Files/crystalshape.glb",
     thumbnail: "/Models_PNG/CrystalShape.png",
@@ -590,7 +671,7 @@ export const MODELS = {
     cameraZ: 15,
     type: "Misc",
   },
-  "Uncategorized/CrystalShape2": {
+  "misc/crystal-shape-2": {
     name: "Crystal Shape 2",
     glb: "/GLB_Files/crystalshape2.glb",
     thumbnail: "/Models_PNG/CrystalShape2.png",
@@ -598,7 +679,7 @@ export const MODELS = {
     cameraZ: 15,
     type: "Misc",
   },
-  "Uncategorized/BoatDisk1": {
+  "misc/boat-disk-1": {
     name: "Boat Disk 1",
     glb: "/GLB_Files/boatdisk1.glb",
     thumbnail: "/Models_PNG/BoatDisk1.png",
@@ -606,7 +687,7 @@ export const MODELS = {
     cameraZ: 10,
     type: "Misc",
   },
-  "Uncategorized/BoatDisk2": {
+  "misc/boat-disk-2": {
     name: "Boat Disk 2",
     glb: "/GLB_Files/boatdisk2.glb",
     thumbnail: "/Models_PNG/BoatDisk2.png",
@@ -614,28 +695,28 @@ export const MODELS = {
     cameraZ: 10,
     type: "Misc",
   },
-  "Uncategorized/Holebox": {
+  "misc/hole-box": {
     name: "Hole Box",
     glb: "/GLB_Files/holebox.glb",
     thumbnail: "/Models_PNG/HoleBox.png",
     palette: ["#00ff83", "#0400ff", "#aa22ff"],
     type: "Misc",
   },
-  "Uncategorized/DiagonalBox": {
+  "misc/diagonal-box": {
     name: "Diagonal Box",
     glb: "/GLB_Files/diagonalbox.glb",
     thumbnail: "/Models_PNG/DiagonalBox.png",
     palette: ["#00ff83", "#0400ff", "#aa22ff"],
     type: "Misc",
   },
-  "Uncategorized/DiagonalBox2": {
+  "misc/diagonal-box-2": {
     name: "Diagonal Box 2",
     glb: "/GLB_Files/diagonalbox2.glb",
     thumbnail: "/Models_PNG/DiagonalBox2.png",
     palette: ["#00ff83", "#0400ff", "#aa22ff"],
     type: "Misc",
   },
-  "Uncategorized/StarBox": {
+  "misc/star-box": {
     name: "Star Box",
     glb: "/GLB_Files/starbox.glb",
     thumbnail: "/Models_PNG/StarBox.png",
