@@ -12,7 +12,7 @@ const model = MODELS[slug];
 if (!model) {
   console.error(`page.js: unknown model "${slug}" (check data-model and models.js)`);
 } else {
-  document.title = 'Origami Club';
+  document.title = 'Origami Collection';
   // Insert the page chrome before the <script> tags already in <body>.
   document.body.insertAdjacentHTML('afterbegin', pageHtml(model));
   mountNav();

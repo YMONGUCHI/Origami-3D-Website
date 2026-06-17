@@ -13,5 +13,5 @@ export function mountNav() {
     return '<li><a href="' + l[0] + '">' + l[1] + '</a></li>';
   }).join('');
   document.body.insertAdjacentHTML('afterbegin',
-    '<nav><a href="/index.html" class="main-link">Origami Club</a><ul>' + items + '</ul></nav>');
+    '<nav><a href="/index.html" class="main-link">Origami Collection</a><ul>' + items + '</ul></nav>');
 }
