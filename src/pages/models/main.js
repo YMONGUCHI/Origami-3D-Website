@@ -1,35 +1,81 @@
 import './style.css'
 import gsap from "gsap"
 import { MODELS } from '../../models.js'
+import { mountNav } from '../../components/nav.js';
+mountNav();
 
-function PNG_Loader(array) {
-    var container = document.getElementById('imageContainer');
-    for (var i = 0; i < array.length; ++i) {
-        var currentItem = array[i];
-        // One card per model (image + name); the flex container lays them out.
-        var card = document.createElement('a');
-        card.href = currentItem[2];
-        card.className = 'model-card';
-
-        var image = new Image();
-        image.src = currentItem[1];
-        image.alt = currentItem[0];
-        card.appendChild(image);
-
-        var modelName = document.createElement('p');
-        modelName.textContent = currentItem[0];
-        card.appendChild(modelName);
-
-        container.appendChild(card);
-    }
+// One card (type/shape name lines + thumbnail) for a model.
+function makeCard(model, slug) {
+    var card = document.createElement('a');
+    card.href = "/model_pages/" + slug + "/index.html";
+    card.className = 'model-card';
+    var p = document.createElement('p');
+    var parts = model.name.split(' - ');
+    p.innerHTML = '<span class="model-type">' + parts[0] + '</span>'
+        + (parts[1] ? '<br><span class="model-shape">' + parts[1] + '</span>' : '');
+    card.appendChild(p);
+    var image = new Image();
+    image.src = model.thumbnail;
+    image.alt = model.name;
+    card.appendChild(image);
+    return card;
 }
 
-// Build the grid from the model data (single source of truth: models.js)
-var PNG_Files = Object.entries(MODELS).map(function (entry) {
-    var slug = entry[0], m = entry[1];
-    return [m.name, m.thumbnail, "/model_pages/" + slug + "/index.html"];
+var container = document.getElementById('imageContainer');
+var ORDER = {
+    type:  ["Sonobe", "Bow Tie Motif", "Poke", "Fuse", "Misc"],
+    shape: ["Tetrahedron", "Hexahedron", "Octahedron", "Icosahedron", "Compound", "Plane"],
+};
+function orderedKeys(dimension, keys) {
+    var order = ORDER[dimension];
+    if (order) {
+        var known = order.filter(function (k) { return keys.indexOf(k) !== -1; });
+        var rest = keys.filter(function (k) { return order.indexOf(k) === -1; }).sort();
+        return known.concat(rest);
+    }
+    return keys.slice().sort(function (a, b) {
+        if (a === "Other") return 1;
+        if (b === "Other") return -1;
+        return Number(a) - Number(b);
+    });
+}
+function headerLabel(dimension, key) {
+    if (key === "Other") return "Other";
+    return dimension === "pieces" ? key + " pieces" : key;
+}
+function render(dimension) {
+    container.innerHTML = '';
+    var groups = {};
+    Object.entries(MODELS).forEach(function (e) {
+        var key = e[1][dimension];
+        key = (key == null || key === '') ? "Other" : String(key);
+        (groups[key] = groups[key] || []).push(e);
+    });
+    orderedKeys(dimension, Object.keys(groups)).forEach(function (key) {
+        var header = document.createElement('h2');
+        header.className = 'section-header';
+        header.textContent = headerLabel(dimension, key);
+        container.appendChild(header);
+        groups[key].forEach(function (e) { container.appendChild(makeCard(e[1], e[0])); });
+    });
+}
+
+var bar = document.createElement('div');
+bar.className = 'group-bar';
+bar.innerHTML = '<span class="group-bar_label">Group by:</span>';
+[["type", "Type"], ["shape", "Shape"], ["pieces", "Pieces"]].forEach(function (d) {
+    var btn = document.createElement('button');
+    btn.textContent = d[1];
+    btn.addEventListener('click', function () {
+        bar.querySelectorAll('button').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        render(d[0]);
+    });
+    bar.appendChild(btn);
 });
-PNG_Loader(PNG_Files);
+container.parentNode.insertBefore(bar, container);
+bar.querySelector('button').classList.add('active');
+render('type');
 
 //Dropdown animation for Navigation
 const tl = gsap.timeline({ defaults: { duration: 1} })

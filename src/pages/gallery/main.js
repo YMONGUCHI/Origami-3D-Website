@@ -1,5 +1,7 @@
 import './style.css'
 import gsap from "gsap"
+import { mountNav } from '../../components/nav.js';
+mountNav();
 
 // Container Loader
 function Container_Loader(array, model_name, png_file) {

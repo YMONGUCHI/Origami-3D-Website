@@ -1,0 +1,41 @@
+/* Site navigation bar (shared component) */
+nav {
+  color: white;
+  position: relative;
+  padding: 4rem 8rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  z-index: 2;
+  background: #0d0d0f;                /* subtle distinct bar */
+  border-bottom: 1px solid #262626;  /* separate from the content */
+}
+
+nav a {
+  text-decoration: none;
+  color: white;
+  font-size: 30px;
+  transition: color .15s ease;
+}
+nav a:hover { color: #00ff83; }       /* green accent on hover */
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  right: 15px;
+  gap: 50px;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 40px;
+}
+
+.main-link {
+  font-size: 50px;
+  position: absolute;
+  left: 40px;
+  top: 50px;
+}

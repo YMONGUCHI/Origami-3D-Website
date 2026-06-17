@@ -3,6 +3,8 @@ import './style.css';
 import gsap from "gsap";
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import { mountNav } from './components/nav.js';
+mountNav();
 
 // Scene
 const scene = new THREE.Scene();

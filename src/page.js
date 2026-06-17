@@ -4,6 +4,7 @@
 import './style.css';
 import { MODELS } from './models.js';
 import { gltfloader } from './main.js';
+import { mountNav } from './components/nav.js';
 
 const slug = document.body.dataset.model;
 const model = MODELS[slug];
@@ -14,33 +15,28 @@ if (!model) {
   document.title = 'Origami Club';
   // Insert the page chrome before the <script> tags already in <body>.
   document.body.insertAdjacentHTML('afterbegin', pageHtml(model));
+  mountNav();
   gltfloader(model.glb, model.palette, { cameraZ: model.cameraZ });
 }
 
 function pageHtml(model) {
   return `
     <canvas class="webgL"></canvas>
-    ${navHtml()}
     ${infoPanelHtml(model)}
     ${colorSelectorHtml(model.palette)}
   `;
 }
 
-function navHtml() {
-  return `
-    <nav>
-      <a href="/index.html" class="main-link">Origami Club</a>
-      <ul>
-        <li><a href="/pages/models/index.html">Models</a></li>
-        <li><a href="/pages/gallery/index.html">Gallery</a></li>
-        <li><a href="/pages/about_us/index.html">About Us</a></li>
-      </ul>
-    </nav>`;
-}
-
 function infoPanelHtml(model) {
-  const lines = Object.entries(model.info || {})
-    .map(([label, value]) => `<p>${label}: ${value}</p>`)
+  const fields = [
+    ['Number of Pieces', model.pieces],
+    ['Geometric Shape', model.shape],
+    ['Number of Tetrahedron', model.tetrahedra],
+    ['Individual Piece', model.type !== 'Misc' ? model.type : null],
+  ];
+  const lines = fields
+    .filter(([, v]) => v != null)
+    .map(([label, v]) => `<p>${label}: ${v}</p>`)
     .join('\n');
   const piece = model.piece
     ? `<img src="${model.piece}" class="expandable_image">`
