@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import './style.css';
+import './scrollbar.css';
 import gsap from "gsap";
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
@@ -14,14 +15,12 @@ mountFeaturedStrip([
   "sonobe/octahedron/type-2/size-2",    // 144pcs
   "sonobe/icosahedron/type-2/size-2",   // 360pcs
   "bow-tie/icosahedron",
-  "poke/octahedron",
-  "sonobe/plane/hexagon/size-2",        // 72pcs
 ]);
 mountGalleryTeaser([
-  { src: "/Gallery_PNG/BowTieMotif_30pcs_Inverted.png", alt: "Bow Tie Motif, 30 pieces, inverted" },
-  { src: "/Gallery_PNG/Sonobe_30pcs.png", alt: "Sonobe, 30 pieces" },
-  { src: "/Gallery_PNG/Sonobe_90pcs.png", alt: "Sonobe, 90 pieces" },
-  { src: "/Gallery_PNG/Sonobe_120pcs.png", alt: "Sonobe, 120 pieces" },
+  { name: "Bow Tie Motif - 30pcs Inverted", src: "/Gallery_PNG/BowTieMotif_30pcs_Inverted.png" },
+  { name: "Sonobe - 30pcs", src: "/Gallery_PNG/Sonobe_30pcs.png" },
+  { name: "Sonobe - 90pcs", src: "/Gallery_PNG/Sonobe_90pcs.png" },
+  { name: "Sonobe - 120pcs", src: "/Gallery_PNG/Sonobe_120pcs.png" },
 ]);
 mountFooter();
 
@@ -118,6 +117,34 @@ controls.enablePen = false // Moving -> This sets it so that you can't move
 controls.enableZoom = false // Zooming
 controls.autoRotate = true
 
+// Pause auto-rotation while the user drags; resume after 10s idle. Also fade
+// the "drag to rotate" hint the first time they grab the model.
+const dragHint = document.querySelector('.hero_hint')
+const scrollCue = document.querySelector('.hero_scroll')
+let resumeTimer
+let interacted = false
+
+// Reveal the "drag to rotate" hint after 5s, unless the user already grabbed it.
+const hintTimer = setTimeout(() => {
+  if (!interacted && dragHint) dragHint.classList.remove('is-hidden')
+}, 5000)
+
+controls.addEventListener('start', () => {
+  controls.autoRotate = false
+  clearTimeout(resumeTimer)
+  interacted = true
+  clearTimeout(hintTimer)
+  if (dragHint) dragHint.classList.add('is-hidden')
+})
+controls.addEventListener('end', () => {
+  resumeTimer = setTimeout(() => { controls.autoRotate = true }, 1500)
+})
+
+// Fade the scroll cue once the user starts scrolling.
+window.addEventListener('scroll', () => {
+  if (scrollCue && window.scrollY > 10) scrollCue.classList.add('is-hidden')
+}, { passive: true })
+
 // Resize
 // Allow resizing when the window is scaled up or down
 window.addEventListener('resize', () => {
@@ -129,12 +156,38 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix()
   renderer.setSize(sizes.width, sizes.height)
 })
+// Stepped color animation, like string lights: hold a 3-color set for HOLD ms,
+// then crossfade to the next set over MOVE ms, looping through PALETTES. The
+// first set is the original palette, so it starts on the established colors.
+const PALETTES = [
+  ["#00ff83", "#0400ff", "#aa22ff"],   // green / blue / purple (original)
+  ["#d9f0ff", "#a3d5ff", "#83c9f4"],   // light blue / blue / sky blue
+  ["#f71735", "#f75c03", "#ffe100"],   // red / orange / yellow
+  ["#000000", "#ffffff", "#fff200"],   // black / white / yellow
+  ["#aaff00", "#00ffc8", "#0091ff"],   // lime / teal / azure
+  ["#ff00aa", "#8a2be2", "#2233ff"],   // magenta / violet / blue
+].map((set) => set.map((hex) => new THREE.Color(hex)))
+
+const animStart = performance.now()
+const HOLD = 1500   // ms to hold each set
+const MOVE = 2000   // ms to crossfade to the next
+const STEP = HOLD + MOVE
 const loop = () => {
+  const tt = (performance.now() - animStart) % (STEP * PALETTES.length)
+  const idx = Math.floor(tt / STEP)
+  const within = tt - idx * STEP
+  const from = PALETTES[idx]
+  const to = PALETTES[(idx + 1) % PALETTES.length]
+  const p = within <= HOLD ? 0 : (within - HOLD) / MOVE
+  const eased = p * p * (3 - 2 * p)    // smoothstep crossfade
+  material1.color.copy(from[0]).lerp(to[0], eased)
+  material2.color.copy(from[1]).lerp(to[1], eased)
+  material3.color.copy(from[2]).lerp(to[2], eased)
   controls.update()
   renderer.render(scene, camera)
   window.requestAnimationFrame(loop)
 }
-loop() 
+loop()
 
 //Dropdown animation for Navigation
 const tl = gsap.timeline({ defaults: { duration: 1} })

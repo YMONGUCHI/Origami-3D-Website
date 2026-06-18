@@ -2,6 +2,7 @@
 // data-model="<slug>" attribute; we look that up in MODELS and build the page
 // (nav, canvas, info card, color selector) from the descriptor, then render.
 import './style.css';
+import './scrollbar.css';
 import { MODELS } from './models.js';
 import { gltfloader } from './main.js';
 import { mountNav } from './components/nav.js';
@@ -14,7 +15,7 @@ const model = MODELS[slug];
 if (!model) {
   console.error(`page.js: unknown model "${slug}" (check data-model and models.js)`);
 } else {
-  document.title = 'Origami Collection';
+  document.title = `${model.name} · Origami Collection`;
   // Insert the page chrome before the <script> tags already in <body>.
   document.body.insertAdjacentHTML('afterbegin', pageHtml(model));
   mountNav();

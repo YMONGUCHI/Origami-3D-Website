@@ -18,15 +18,20 @@ html {
 
 /* Same card grid as the Models page */
 #imageContainer {
+  max-width: 1240px;
+  margin: 0 auto;
+  min-width: 0;                /* let the grid shrink inside the flex (footer) body */
   padding: 40px 20px;
   display: grid;
-  grid-template-columns: repeat(4, 250px);
-  justify-content: center;     /* center the 4-column block; extra width -> side margins */
+  /* 4 columns on desktop; count drops at the breakpoints below. minmax(0, ..)
+     lets columns shrink to fit so they never overflow. */
+  grid-template-columns: repeat(4, minmax(0, 250px));
+  justify-content: center;     /* center the columns; extra width -> side margins */
   gap: 150px 50px;             /* row-gap  column-gap */
 }
 
 .model-card {
-  width: 250px;
+  width: 100%;                 /* fill the grid cell (capped by the column's 250px) */
   color: white;
   text-align: left;
   background: #161616;
@@ -47,9 +52,20 @@ html {
 .model-shape { font-size: 14px; font-weight: 400; }
 .model-card:hover { transform: translateY(-6px); }
 
-/* Narrow screens: keep 4 per row, let columns shrink to fit (no h-scroll) */
-@media (max-width: 1200px) {
+/* Fewer columns as the screen narrows. */
+@media (max-width: 1080px) {
+  #imageContainer { grid-template-columns: repeat(3, minmax(0, 250px)); }
+}
+@media (max-width: 820px) {
   #imageContainer {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 250px));
+    gap: 70px 24px;
+    padding: 28px 16px;
+  }
+}
+@media (max-width: 540px) {
+  #imageContainer {
+    grid-template-columns: minmax(0, 340px);
+    gap: 48px 0;
   }
 }

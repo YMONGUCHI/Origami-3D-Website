@@ -36,6 +36,73 @@ body nav {
   font-size: clamp(28px, 6vw, 48px);
 }
 
+/* "drag to rotate" hint — sits just under the model; fades out on first
+   interaction (see home.js). */
+.hero_hint {
+  position: absolute;
+  top: 67%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  transition: opacity 0.4s ease;
+}
+
+/* Inner span breathes (opacity) so the parent's fade-out stays independent. */
+.hero_hint-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  animation: hero-breathe 2.4s ease-in-out infinite;
+}
+
+/* The rotate glyph spins slowly to reinforce "rotate". */
+.hero_hint-icon {
+  animation: hero-spin 4s linear infinite;
+}
+
+/* Scroll cue — a bouncing down-chevron; fades out once the user scrolls. */
+.hero_scroll {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  transition: opacity 0.4s ease;
+  animation: hero-bounce 1.8s ease-in-out infinite;
+}
+.hero_scroll-chevron {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-right: 2px solid rgba(255, 255, 255, 0.75);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.75);
+  transform: rotate(45deg);
+}
+
+.hero_hint.is-hidden,
+.hero_scroll.is-hidden {
+  opacity: 0;
+  animation: none;        /* stop the motion so the opacity fade can take over */
+  pointer-events: none;
+}
+
+@keyframes hero-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(8px); }
+}
+
+@keyframes hero-breathe {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 1; }
+}
+
+@keyframes hero-spin {
+  to { transform: rotate(360deg); }
+}
+
 /* The next part — a hand-folded photo beside the intro blurb + CTA. */
 .hero-intro {
   border-top: 1px solid #2a2a2a;   /* full-width divider from the hero */
@@ -75,6 +142,12 @@ body nav {
   font-size: clamp(16px, 2.4vw, 26px);
   font-weight: 300;
   opacity: 0.85;
+}
+
+/* Tighten the photo/text gap once they're close to wrapping (the large desktop
+   gap would otherwise become a big vertical void when they stack). */
+@media (max-width: 1000px) {
+  .hero-intro_inner { gap: 32px; }
 }
 
 /* Narrow screens: stack photo over text and center it. */
@@ -117,6 +190,35 @@ body nav {
   transition: color .15s ease;
 }
 .section-head_link:hover { color: #00ff83; }
+
+/* Shared card for the homepage strips (Featured models + From the gallery). */
+.model-card {
+  width: 240px;
+  color: white;
+  text-decoration: none;
+  background: #161616;
+  border-radius: 12px;
+  padding: 12px 12px 0;
+  overflow: hidden;
+  transition: transform .15s ease;
+}
+.model-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+.model-card p { margin: 0 0 10px; }
+.model-type  { font-size: 16px; font-weight: 600; }
+.model-shape { font-size: 13px; font-weight: 400; opacity: 0.8; }
+.model-card:hover { transform: translateY(-6px); }
+
+/* Center the strip cards on narrow screens (they're left-aligned on desktop). */
+@media (max-width: 860px) {
+  .featured_track,
+  .gallery_track { justify-content: center; }
+}
 
 /* About blurb: a short personal note with a link to the full About page. */
 .about-blurb {

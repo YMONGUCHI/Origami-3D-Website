@@ -32,6 +32,17 @@
 
 .site-footer_copy { margin: 0; }
 
+/* Small screens: the large side padding crushes the content, so reduce it and
+   stack the brand / links / copy instead of spreading them on one row. */
+@media (max-width: 860px) {
+  .site-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 28px 22px;
+  }
+}
+
 /* Pages that include the footer: keep it at the bottom even when content is short. */
 body { min-height: 100vh; display: flex; flex-direction: column; }
 .site-footer { margin-top: auto; }

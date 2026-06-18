@@ -39,3 +39,30 @@ nav ul li {
   left: 40px;
   top: 50px;
 }
+
+/* Small screens: drop the absolute positioning and keep a single row with the
+   brand left and links right, scaled to the viewport so it fits on phones. */
+@media (max-width: 860px) {
+  nav {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 18px;
+  }
+  .main-link {
+    position: static;
+    font-size: clamp(16px, 4.2vw, 24px);
+  }
+  nav ul {
+    position: static;
+    display: flex;
+    gap: clamp(10px, 3vw, 18px);
+  }
+  nav ul li {
+    margin-right: 0;
+  }
+  nav ul a {
+    font-size: clamp(12px, 3.2vw, 16px);
+  }
+}

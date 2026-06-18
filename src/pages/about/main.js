@@ -1,3 +1,4 @@
+import '../../scrollbar.css'
 import gsap from "gsap"
 import { mountNav } from '../../components/nav.js';
 import { mountFooter } from '../../components/footer.js';

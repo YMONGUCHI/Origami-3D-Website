@@ -1,4 +1,5 @@
 import './style.css'
+import '../../scrollbar.css'
 import gsap from "gsap"
 import { MODELS } from '../../models.js'
 import { mountNav } from '../../components/nav.js';
