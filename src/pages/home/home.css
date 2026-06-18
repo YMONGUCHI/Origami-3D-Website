@@ -6,10 +6,6 @@ body {
   overflow-y: auto;          /* the homepage scrolls (unlike viewer pages) */
 }
 
-body {
-  background: black;         /* shows behind/between sections while scrolling */
-}
-
 /* Hero: full-viewport rotating model with the catchphrase overlaid on it. */
 .hero-stage {
   position: relative;

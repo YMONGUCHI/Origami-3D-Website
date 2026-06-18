@@ -2,7 +2,7 @@
 // #featuredTrack container with catalog cards for the given model slugs, each
 // linking to its viewer page (same card markup as the Models catalog).
 import './featuredStrip.css';
-import { MODELS } from '../models.js';
+import { MODELS } from '../data/models.js';
 
 function makeCard(model, slug) {
   const card = document.createElement('a');

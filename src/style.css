@@ -1,14 +1,8 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* Full-screen pages (homepage hero + model viewers): lock vertical scroll.
+   Reset, font, and background live in the shared base (styles/base.css). */
 body,
-html{
-  overflow-x: hidden;
+html {
   overflow-y: hidden;
-  font-family: "Poppins", sans-serif;
 }
 
 .webgL {

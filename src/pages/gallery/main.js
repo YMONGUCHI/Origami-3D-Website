@@ -1,7 +1,7 @@
 import './style.css'
-import '../../scrollbar.css'
+import '../../styles/base.css'
 import gsap from "gsap"
-import { GALLERY_PHOTOS } from '../../galleryPhotos.js';
+import { GALLERY_PHOTOS } from '../../data/galleryPhotos.js';
 import { mountNav } from '../../components/nav.js';
 import { mountFooter } from '../../components/footer.js';
 import { mountBackToTop } from '../../components/backToTop.js';

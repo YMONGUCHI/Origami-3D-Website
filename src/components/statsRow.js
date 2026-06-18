@@ -1,8 +1,8 @@
 // Homepage stats band. mountStatsRow() fills #statsRow with live counts derived
 // from models.js, so the numbers stay accurate as the catalog changes.
 import './statsRow.css';
-import { MODELS } from '../models.js';
-import { GALLERY_PHOTOS } from '../galleryPhotos.js';
+import { MODELS } from '../data/models.js';
+import { GALLERY_PHOTOS } from '../data/galleryPhotos.js';
 
 export function mountStatsRow() {
   const row = document.getElementById('statsRow');
