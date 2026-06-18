@@ -8,8 +8,10 @@ import { mountNav } from './components/nav.js';
 import { mountFooter } from './components/footer.js';
 import { mountFeaturedStrip } from './components/featuredStrip.js';
 import { mountGalleryTeaser } from './components/galleryTeaser.js';
+import { mountStatsRow } from './components/statsRow.js';
 import './home.css';
 mountNav();
+mountStatsRow();
 mountFeaturedStrip([
   "sonobe/icosahedron/type-1/size-3",   // 270pcs
   "sonobe/octahedron/type-2/size-2",    // 144pcs

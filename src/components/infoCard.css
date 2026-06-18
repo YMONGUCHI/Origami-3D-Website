@@ -13,13 +13,18 @@
   font-size: 16px;
 }
 
-/* Narrow screens: span the top instead of overflowing off the right edge. */
+/* Narrow screens: span the top (below the nav) instead of overflowing right. */
 @media (max-width: 700px) {
   .expandable {
-    top: 12px;
+    top: 70px;          /* clear the nav bar above */
     right: 12px;
     left: 12px;
     width: auto;
+  }
+  .expandable_content {
+    font-size: 16px;
+    line-height: 30px;
+    padding-bottom: 8px;
   }
 }
 

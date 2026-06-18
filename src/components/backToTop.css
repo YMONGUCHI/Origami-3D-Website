@@ -1,0 +1,39 @@
+/* Floating back-to-top button (shared component). */
+.back-to-top {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 50;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  background: #161616;
+  color: white;
+  border: 1px solid #262626;
+  border-radius: 999px;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;            /* not clickable until shown */
+  transition: opacity .2s ease, transform .2s ease, border-color .15s ease, background .15s ease;
+}
+.back-to-top.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.back-to-top:hover { border-color: #00ff83; background: #1d1d1d; }
+
+/* Up-chevron drawn with two borders. */
+.back-to-top_chevron {
+  width: 11px;
+  height: 11px;
+  border-top: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+  transform: translateY(2px) rotate(45deg);
+}
+
+@media (max-width: 700px) {
+  .back-to-top { right: 16px; bottom: 16px; width: 44px; height: 44px; }
+}

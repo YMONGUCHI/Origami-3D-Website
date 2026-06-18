@@ -13,6 +13,7 @@ function makeCard(item) {
     + (parts[1] ? '<br><span class="model-shape">' + parts[1] + '</span>' : '');
   card.appendChild(p);
   const image = new Image();
+  image.loading = 'lazy';
   image.src = item.src;
   image.alt = item.alt || item.name;
   card.appendChild(image);

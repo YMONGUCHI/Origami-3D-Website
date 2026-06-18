@@ -4,8 +4,10 @@ import gsap from "gsap"
 import { MODELS } from '../../models.js'
 import { mountNav } from '../../components/nav.js';
 import { mountFooter } from '../../components/footer.js';
+import { mountBackToTop } from '../../components/backToTop.js';
 mountNav();
 mountFooter();
+mountBackToTop();
 
 // One card (type/shape name lines + thumbnail) for a model.
 function makeCard(model, slug) {
@@ -18,6 +20,7 @@ function makeCard(model, slug) {
         + (parts[1] ? '<br><span class="model-shape">' + parts[1] + '</span>' : '');
     card.appendChild(p);
     var image = new Image();
+    image.loading = 'lazy';
     image.src = model.thumbnail;
     image.alt = model.name;
     card.appendChild(image);
@@ -46,10 +49,30 @@ function headerLabel(dimension, key) {
     if (key === "Other") return "Other";
     return dimension === "pieces" ? key + " pieces" : key;
 }
+var currentDimension = 'type';
+var searchQuery = '';
+
+// A model matches if the query appears in its name, type, shape, or slug.
+function matchesSearch(entry) {
+    if (!searchQuery) return true;
+    var m = entry[1];
+    var hay = (m.name + ' ' + (m.type || '') + ' ' + (m.shape || '') + ' ' + entry[0]).toLowerCase();
+    return hay.indexOf(searchQuery) !== -1;
+}
+
 function render(dimension) {
+    currentDimension = dimension;
     container.innerHTML = '';
+    var entries = Object.entries(MODELS).filter(matchesSearch);
+    if (entries.length === 0) {
+        var empty = document.createElement('p');
+        empty.className = 'no-results';
+        empty.textContent = 'No models match “' + searchQuery + '”.';
+        container.appendChild(empty);
+        return;
+    }
     var groups = {};
-    Object.entries(MODELS).forEach(function (e) {
+    entries.forEach(function (e) {
         var key = e[1][dimension];
         key = (key == null || key === '') ? "Other" : String(key);
         (groups[key] = groups[key] || []).push(e);
@@ -78,6 +101,21 @@ bar.innerHTML = '<span class="group-bar_label">Group by:</span>';
 });
 container.parentNode.insertBefore(bar, container);
 bar.querySelector('button').classList.add('active');
+
+// Search box: filters the rendered cards (kept above the group-by bar).
+var search = document.createElement('div');
+search.className = 'search-bar';
+var input = document.createElement('input');
+input.type = 'search';
+input.className = 'search-input';
+input.placeholder = 'Search models…';
+input.addEventListener('input', function () {
+    searchQuery = input.value.trim().toLowerCase();
+    render(currentDimension);
+});
+search.appendChild(input);
+container.parentNode.insertBefore(search, bar);
+
 render('type');
 
 //Dropdown animation for Navigation

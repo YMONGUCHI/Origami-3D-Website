@@ -76,6 +76,19 @@ html {
 }
 
 
+/* Search box */
+.search-bar { display:flex; justify-content:center; margin:28px 0 4px; padding:0 16px; }
+.search-input {
+    width:100%; max-width:420px;
+    background:#161616; color:white;
+    border:1px solid #262626; border-radius:999px;
+    padding:10px 18px; font-size:15px; font-family:inherit;
+    outline:none; transition:border-color .15s ease;
+}
+.search-input::placeholder { color:#9aa0a6; }
+.search-input:focus { border-color:#00ff83; }
+.no-results { grid-column:1 / -1; color:#9aa0a6; text-align:center; font-size:18px; padding:40px 0; }
+
 /* Group-by control bar */
 .group-bar { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:10px; margin:24px 0 8px; color:white; }
 .group-bar_label { color:#9aa0a6; margin-right:4px; }

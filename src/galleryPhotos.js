@@ -1,0 +1,26 @@
+// The gallery photo list (photos of real, hand-folded models). Shared so the
+// Gallery page and the homepage stats both read the same source.
+export const GALLERY_PHOTOS = [
+  { name: "Bow Tie Motif - 30pcs Inverted", src: "/Gallery_PNG/BowTieMotif_30pcs_Inverted.png" },
+  { name: "Sonobe - 1pc", src: "/Gallery_PNG/Sonobe_1pc.png" },
+  { name: "Sonobe - 2pcs", src: "/Gallery_PNG/Sonobe_2pcs.png" },
+  { name: "Sonobe - 3pcs", src: "/Gallery_PNG/Sonobe_3pcs.png" },
+  { name: "Sonobe - 6pcs", src: "/Gallery_PNG/Sonobe_6pcs.png" },
+  { name: "Sonobe - 12pcs", src: "/Gallery_PNG/Sonobe_12pcs.png" },
+  { name: "Sonobe - 15pcs", src: "/Gallery_PNG/Sonobe_15pcs.png" },
+  { name: "Sonobe - 18pcs", src: "/Gallery_PNG/Sonobe_18pcs.png" },
+  { name: "Sonobe - 24pcs", src: "/Gallery_PNG/Sonobe_24pcs.png" },
+  { name: "Sonobe - 30pcs", src: "/Gallery_PNG/Sonobe_30pcs.png" },
+  { name: "Sonobe - 30pcs Inverted", src: "/Gallery_PNG/Sonobe_30pcs_Inverted.png" },
+  { name: "Sonobe - 30pcs Var. 1", src: "/Gallery_PNG/Sonobe_30pcs_Modif1.png" },
+  { name: "Sonobe - 30pcs Var. 2", src: "/Gallery_PNG/Sonobe_30pcs_Modif3.png" },
+  { name: "Sonobe - 30pcs Var. 3", src: "/Gallery_PNG/Sonobe_30pcs_Modif4.png" },
+  { name: "Sonobe - 36pcs", src: "/Gallery_PNG/Sonobe_36pcs.png" },
+  { name: "Sonobe - 48pcs", src: "/Gallery_PNG/Sonobe_48pcs.png" },
+  { name: "Sonobe - 54pcs", src: "/Gallery_PNG/Sonobe_54pcs.png" },
+  { name: "Sonobe - 90pcs", src: "/Gallery_PNG/Sonobe_90pcs.png" },
+  { name: "Sonobe - 108pcs", src: "/Gallery_PNG/Sonobe_108pcs.png" },
+  { name: "Sonobe - 120pcs", src: "/Gallery_PNG/Sonobe_120pcs.png" },
+  { name: "Sonobe - 144pcs", src: "/Gallery_PNG/Sonobe_144pcs.png" },
+  { name: "Sonobe - 18pcs", src: "/Gallery_PNG/Sonobe_idkpcs.png" },
+];

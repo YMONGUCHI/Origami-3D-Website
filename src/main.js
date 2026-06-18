@@ -135,6 +135,18 @@ function loadgltf(gltf_file, materials, scene) {
   );
 }
 
+// Pause auto-rotation while the user drags; resume after 5s of no interaction.
+function pauseResumeRotation(controls) {
+  let resumeTimer
+  controls.addEventListener('start', () => {
+    controls.autoRotate = false
+    clearTimeout(resumeTimer)
+  })
+  controls.addEventListener('end', () => {
+    resumeTimer = setTimeout(() => { controls.autoRotate = true }, 5000)
+  })
+}
+
 // Render a model from its GLB file and palette
 function gltfloader(gltf_file, palette, options = {}) {
   const { cameraZ = 7 } = options;
@@ -147,6 +159,7 @@ function gltfloader(gltf_file, palette, options = {}) {
   const camera = definecamera(scene, sizes, cameraZ);
   const [canvas, renderer] = definerenderer(sizes, scene, camera);
   const controls = definecontrols(camera, canvas);
+  pauseResumeRotation(controls);
   configureresize(sizes, controls, scene, camera, renderer);
   dropdownanimation();
 }

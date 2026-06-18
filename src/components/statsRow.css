@@ -1,0 +1,28 @@
+/* Homepage stats band. */
+.stats {
+  border-top: 1px solid #2a2a2a;   /* divider from the section above */
+  padding: 70px 24px;
+  color: white;
+}
+
+.stats_inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px 80px;
+  text-align: center;
+}
+
+.stat { min-width: 140px; }
+.stat_num {
+  font-size: clamp(34px, 6vw, 54px);
+  font-weight: 700;
+  line-height: 1;
+}
+.stat_label {
+  margin-top: 10px;
+  color: #9aa0a6;
+  font-size: clamp(14px, 2vw, 18px);
+}
