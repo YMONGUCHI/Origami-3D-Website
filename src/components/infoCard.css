@@ -38,6 +38,10 @@
 
 .expandable_title-bar {
   width: 100%;
+  appearance: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
   display: flex;
   cursor: pointer;
   align-items: center;

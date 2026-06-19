@@ -184,6 +184,29 @@ window.addEventListener('scroll', () => {
 btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 ```
 
+**SEO + Open Graph meta** (`scripts/inject-meta.mjs`). Every page carries a `<title>`, a `<meta name="description">`, and Open Graph / Twitter tags, so a shared link unfurls with a real title, blurb, and image. Rather than hand-writing 68 `<head>`s, a re-runnable generator injects them: the four main pages come from a small config block, and each model page's tags are derived from `models.js` by reading the stub's `data-model` slug (description from shape + piece count, `og:image` from the model's thumbnail). The injected block is wrapped in `<!-- meta:auto -->` markers, so re-running refreshes it in place instead of duplicating:
+
+```js
+const slug = /data-model="([^"]+)"/.exec(html)?.[1];
+const m = MODELS[slug];
+// <title>, description from m.shape + m.pieces, og:image from m.thumbnail,
+// absolute og:url under the live origin — all wrapped in <!-- meta:auto --> markers
+```
+After adding a model, re-run `node scripts/inject-meta.mjs`. Reusable idea: the same data-driven principle the pages use at runtime, applied as a pre-build step so the social metadata never drifts from the catalog. (The site origin baked into `og:url`/`og:image` is the `SITE` constant at the top of the script; change it if the domain moves.)
+
+**Accessibility: reduced motion, focus, alt text** (`src/utils/motion.js`, `src/data/altText.js`, `src/styles/base.css`). Three things travel together. Motion is handled in two halves: a `prefers-reduced-motion` media query in `base.css` zeroes out every CSS animation/transition site-wide, and `motion.js` centralizes the JS half so the 3D auto-rotation, the homepage color cycling, and the nav slide-in all consult one `prefersReducedMotion()` check (this also collapsed the GSAP nav animation that had been copy-pasted into five entry files):
+
+```js
+export const prefersReducedMotion = () =>
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+export function animateNavIn() {
+  if (prefersReducedMotion()) return;            // leave nav in its resting spot
+  gsap.timeline({ defaults: { duration: 1 } }).fromTo('nav', { y: '-100%' }, { y: '0%' });
+}
+```
+Keyboard focus is a global `:focus-visible` ring in the site accent (visible against the dark theme), plus turning the one clickable `<div>` (the info-card toggle) into a real `<button>` with `aria-expanded`. Alt text is generated, not hand-written: `altText.js` describes each image by its data (piece count, family, shape for the 3D renders; "hand-folded" for the real-model photos) so it never just repeats the visible name. Reusable idea: derive accessible text from the same data layer the pages render from, and keep the reduced-motion decision in one place both CSS and JS defer to.
+
 ### Stylistic
 
 **Homepage hero color cycling** (`src/pages/home/home.js`). Inside the render loop, the model's three materials crossfade through a list of palettes. Each palette is held for `HOLD` ms, then `lerp`ed to the next over `MOVE` ms using a smoothstep ease. Time drives everything off one `performance.now()` clock, so it loops forever without state:
@@ -337,13 +360,18 @@ Origami-3D-Website/
 │   ├── model_pages/          64 model viewer stubs, grouped by family
 │   ├── data/
 │   │   ├── models.js         single source of truth for all models
-│   │   └── galleryPhotos.js  single source of truth for the gallery
+│   │   ├── galleryPhotos.js  single source of truth for the gallery
+│   │   └── altText.js        descriptive alt-text helpers (model + photo)
+│   ├── utils/
+│   │   └── motion.js         prefers-reduced-motion gate + nav slide-in
 │   ├── styles/
 │   │   └── base.css          shared reset, fonts, scrollbar
 │   ├── main.js               Three.js viewer core (scene, lights,
 │   │                         controls, GLB loader, rotation)
 │   ├── index.html            homepage entry
 │   └── style.css             scroll-lock for full-screen 3D pages
+├── scripts/
+│   └── inject-meta.mjs       generates per-page SEO + Open Graph meta from models.js
 ├── .gitignore
 ├── package.json
 ├── package-lock.json
@@ -376,7 +404,6 @@ The site is live and continuously expanding. Planned work falls into two buckets
 
 **System improvements:**
 
-* Accessibility (keyboard navigation, ARIA, focus handling, reduced-motion support)
-* Meta tags (titles, descriptions, Open Graph/social previews) for each page
+* Accessibility, continued: page landmarks (`<main>`/`<h1>`), a text alternative for the 3D canvas, a skip-to-content link, and `aria-current` on the active nav link. (Reduced-motion support, a visible focus ring, keyboard-operable controls, and descriptive alt text are done.)
 
 See [CHANGELOG.md](./CHANGELOG.md) for a summary of notable changes.

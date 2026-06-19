@@ -15,7 +15,7 @@ html {
   background:#161616; color:white;
   border:1px solid #262626; border-radius:999px;
   padding:10px 18px; font-size:15px; font-family:inherit;
-  outline:none; transition:border-color .15s ease;
+  transition:border-color .15s ease;
 }
 .search-input::placeholder { color:#9aa0a6; }
 .search-input:focus { border-color:#00ff83; }

@@ -3,6 +3,7 @@
 // linking to its viewer page (same card markup as the Models catalog).
 import './featuredStrip.css';
 import { MODELS } from '../data/models.js';
+import { modelAlt } from '../data/altText.js';
 
 function makeCard(model, slug) {
   const card = document.createElement('a');
@@ -16,7 +17,7 @@ function makeCard(model, slug) {
   const image = new Image();
   image.loading = 'lazy';
   image.src = model.thumbnail;
-  image.alt = model.name;
+  image.alt = modelAlt(model);
   card.appendChild(image);
   return card;
 }

@@ -1,5 +1,36 @@
 # Changelog
 
+## Unreleased
+
+### SEO & sharing
+
+- **Added per-page meta tags** across all 68 pages: a `<title>`,
+  a `<meta name="description">`, and Open Graph / Twitter Card tags, so shared
+  links unfurl with a real title, description, and preview image.
+- **Generated them data-driven** via a re-runnable script
+  (`scripts/inject-meta.mjs`): the four main pages come from a small config, and
+  each model page's tags are derived from `models.js` by its `data-model` slug
+  (description from shape and piece count, `og:image` from the model thumbnail).
+  The injected block is wrapped in `<!-- meta:auto -->` markers, so re-running
+  after adding a model refreshes it in place rather than duplicating.
+
+### Accessibility
+
+- **Reduced-motion support.** A `prefers-reduced-motion` media query neutralizes
+  CSS animations and transitions site-wide, and a shared `src/utils/motion.js`
+  gates the JS-driven motion: the 3D models no longer auto-rotate, the homepage
+  color cycling holds its original palette, and the nav slide-in is skipped.
+  Dragging to rotate still works.
+- **Keyboard focus.** Added a visible `:focus-visible` ring (site accent) across
+  the dark theme, turned the info-card toggle from a non-focusable `<div>` into a
+  real `<button>` with `aria-expanded`, and stopped suppressing the focus outline
+  on the search inputs.
+- **Descriptive alt text.** Catalog, gallery, and homepage images now describe
+  the model (piece count, family, shape; "hand-folded" for the real-model photos)
+  via a shared `src/data/altText.js`, instead of repeating the bare name. The
+  info-card piece image gained alt text and its decorative chevron is now hidden
+  from assistive tech.
+
 ## v1.1 — First patch
 
 The first major update since the initial commit. This patch covers a near-complete

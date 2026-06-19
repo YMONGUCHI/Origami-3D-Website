@@ -1,7 +1,8 @@
 import './style.css'
 import '../../styles/base.css'
-import gsap from "gsap"
 import { GALLERY_PHOTOS } from '../../data/galleryPhotos.js';
+import { photoAlt } from '../../data/altText.js';
+import { animateNavIn } from '../../utils/motion.js';
 import { mountNav } from '../../components/nav.js';
 import { mountFooter } from '../../components/footer.js';
 import { mountBackToTop } from '../../components/backToTop.js';
@@ -21,7 +22,7 @@ function makeCard(name, png) {
     var image = new Image();
     image.loading = 'lazy';
     image.src = png;
-    image.alt = name;
+    image.alt = photoAlt(name);
     card.appendChild(image);
     return card;
 }
@@ -52,6 +53,7 @@ var input = document.createElement('input');
 input.type = 'search';
 input.className = 'search-input';
 input.placeholder = 'Search gallery…';
+input.setAttribute('aria-label', 'Search the gallery');
 input.addEventListener('input', function () {
     searchQuery = input.value.trim().toLowerCase();
     render();
@@ -61,6 +63,5 @@ container.parentNode.insertBefore(search, container);
 
 render();
 
-//Dropdown animation for Navigation
-const tl = gsap.timeline({ defaults: { duration: 1} })
-tl.fromTo('nav', {y: "-100%" }, {y: "0%"})
+// Slide the nav in on load (skipped under reduced motion).
+animateNavIn();

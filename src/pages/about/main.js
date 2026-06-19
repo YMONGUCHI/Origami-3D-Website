@@ -1,10 +1,9 @@
 import '../../styles/base.css'
-import gsap from "gsap"
+import { animateNavIn } from '../../utils/motion.js'
 import { mountNav } from '../../components/nav.js';
 import { mountFooter } from '../../components/footer.js';
 mountNav();
 mountFooter();
 
-//Dropdown animation for Navigation
-const tl = gsap.timeline({ defaults: { duration: 1} })
-tl.fromTo('nav', {y: "-100%" }, {y: "0%"})
+// Slide the nav in on load (skipped under reduced motion).
+animateNavIn();

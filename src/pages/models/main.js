@@ -1,7 +1,8 @@
 import './style.css'
 import '../../styles/base.css'
-import gsap from "gsap"
 import { MODELS } from '../../data/models.js'
+import { modelAlt } from '../../data/altText.js'
+import { animateNavIn } from '../../utils/motion.js'
 import { mountNav } from '../../components/nav.js';
 import { mountFooter } from '../../components/footer.js';
 import { mountBackToTop } from '../../components/backToTop.js';
@@ -22,7 +23,7 @@ function makeCard(model, slug) {
     var image = new Image();
     image.loading = 'lazy';
     image.src = model.thumbnail;
-    image.alt = model.name;
+    image.alt = modelAlt(model);
     card.appendChild(image);
     return card;
 }
@@ -109,6 +110,7 @@ var input = document.createElement('input');
 input.type = 'search';
 input.className = 'search-input';
 input.placeholder = 'Search models…';
+input.setAttribute('aria-label', 'Search models');
 input.addEventListener('input', function () {
     searchQuery = input.value.trim().toLowerCase();
     render(currentDimension);
@@ -118,6 +120,5 @@ container.parentNode.insertBefore(search, bar);
 
 render('type');
 
-//Dropdown animation for Navigation
-const tl = gsap.timeline({ defaults: { duration: 1} })
-tl.fromTo('nav', {y: "-100%" }, {y: "0%"})
+// Slide the nav in on load (skipped under reduced motion).
+animateNavIn();

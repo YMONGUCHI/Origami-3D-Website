@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import '../../style.css';
 import '../../styles/base.css';
-import gsap from "gsap";
+import { prefersReducedMotion, animateNavIn } from '../../utils/motion.js';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import { mountNav } from '../../components/nav.js';
@@ -25,6 +25,9 @@ mountGalleryTeaser([
   { name: "Sonobe - 120pcs", src: "/Gallery_PNG/Sonobe_120pcs.png" },
 ]);
 mountFooter();
+
+// Honor the OS "reduce motion" setting for the auto-spin and color cycling.
+const reduceMotion = prefersReducedMotion();
 
 // Scene
 const scene = new THREE.Scene();
@@ -117,7 +120,7 @@ const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true // Give a sense of weight
 controls.enablePen = false // Moving -> This sets it so that you can't move
 controls.enableZoom = false // Zooming
-controls.autoRotate = true
+controls.autoRotate = !reduceMotion
 
 // Pause auto-rotation while the user drags; resume after 10s idle. Also fade
 // the "drag to rotate" hint the first time they grab the model.
@@ -139,7 +142,7 @@ controls.addEventListener('start', () => {
   if (dragHint) dragHint.classList.add('is-hidden')
 })
 controls.addEventListener('end', () => {
-  resumeTimer = setTimeout(() => { controls.autoRotate = true }, 1500)
+  resumeTimer = setTimeout(() => { if (!reduceMotion) controls.autoRotate = true }, 1500)
 })
 
 // Fade the scroll cue once the user starts scrolling.
@@ -175,22 +178,26 @@ const HOLD = 1500   // ms to hold each set
 const MOVE = 2000   // ms to crossfade to the next
 const STEP = HOLD + MOVE
 const loop = () => {
-  const tt = (performance.now() - animStart) % (STEP * PALETTES.length)
-  const idx = Math.floor(tt / STEP)
-  const within = tt - idx * STEP
-  const from = PALETTES[idx]
-  const to = PALETTES[(idx + 1) % PALETTES.length]
-  const p = within <= HOLD ? 0 : (within - HOLD) / MOVE
-  const eased = p * p * (3 - 2 * p)    // smoothstep crossfade
-  material1.color.copy(from[0]).lerp(to[0], eased)
-  material2.color.copy(from[1]).lerp(to[1], eased)
-  material3.color.copy(from[2]).lerp(to[2], eased)
+  // Skip the color crossfade under reduced motion; the materials keep their
+  // default (original-palette) colors. Rendering still runs so the user can
+  // drag to rotate.
+  if (!reduceMotion) {
+    const tt = (performance.now() - animStart) % (STEP * PALETTES.length)
+    const idx = Math.floor(tt / STEP)
+    const within = tt - idx * STEP
+    const from = PALETTES[idx]
+    const to = PALETTES[(idx + 1) % PALETTES.length]
+    const p = within <= HOLD ? 0 : (within - HOLD) / MOVE
+    const eased = p * p * (3 - 2 * p)    // smoothstep crossfade
+    material1.color.copy(from[0]).lerp(to[0], eased)
+    material2.color.copy(from[1]).lerp(to[1], eased)
+    material3.color.copy(from[2]).lerp(to[2], eased)
+  }
   controls.update()
   renderer.render(scene, camera)
   window.requestAnimationFrame(loop)
 }
 loop()
 
-//Dropdown animation for Navigation
-const tl = gsap.timeline({ defaults: { duration: 1} })
-tl.fromTo('nav', {y: "-100%" }, {y: "0%"})
+// Slide the nav in on load (skipped under reduced motion).
+animateNavIn();

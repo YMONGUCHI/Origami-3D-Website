@@ -1,9 +1,9 @@
 import * as THREE from 'three';
 import './style.css'
-import gsap from "gsap"
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js'
 import { bindColorPickers } from './components/colorSelector.js'
+import { prefersReducedMotion, animateNavIn } from './utils/motion.js'
 
 // Create a new scene
 function createscene() {
@@ -88,7 +88,7 @@ function definecontrols(camera, canvas) {
   controls.enableDamping = true // Give a sense of weight
   controls.enablePen = false // Moving -> This sets it so that you can't move
   controls.enableZoom = true // Zooming
-  controls.autoRotate = true
+  controls.autoRotate = !prefersReducedMotion() // respect "reduce motion"
   return controls;
 }
 
@@ -109,12 +109,6 @@ function configureresize(sizes, controls, scene, camera, renderer) {
     window.requestAnimationFrame(loop)
   }
   loop() 
-}
-
-//Dropdown animation for Navigation
-function dropdownanimation() {
-  const tl = gsap.timeline({ defaults: { duration: 1} })
-  tl.fromTo('nav', {y: "-100%" }, {y: "0%"})
 }
 
 // Load model and give each part a material (by Solid name, else child order)
@@ -143,7 +137,7 @@ function pauseResumeRotation(controls) {
     clearTimeout(resumeTimer)
   })
   controls.addEventListener('end', () => {
-    resumeTimer = setTimeout(() => { controls.autoRotate = true }, 5000)
+    resumeTimer = setTimeout(() => { if (!prefersReducedMotion()) controls.autoRotate = true }, 5000)
   })
 }
 
@@ -161,7 +155,7 @@ function gltfloader(gltf_file, palette, options = {}) {
   const controls = definecontrols(camera, canvas);
   pauseResumeRotation(controls);
   configureresize(sizes, controls, scene, camera, renderer);
-  dropdownanimation();
+  animateNavIn();
 }
 
 export {gltfloader}

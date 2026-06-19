@@ -2,6 +2,7 @@
 // #galleryTrack container with cards (same look as the Featured strip), each
 // linking to the Gallery page. items: [{ name, src }].
 import './galleryTeaser.css';
+import { photoAlt } from '../data/altText.js';
 
 function makeCard(item) {
   const card = document.createElement('a');
@@ -15,7 +16,7 @@ function makeCard(item) {
   const image = new Image();
   image.loading = 'lazy';
   image.src = item.src;
-  image.alt = item.alt || item.name;
+  image.alt = item.alt || photoAlt(item.name);
   card.appendChild(image);
   return card;
 }

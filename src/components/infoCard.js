@@ -20,15 +20,16 @@ export function infoCardHtml(model) {
     .filter(([, v]) => v != null)
     .map(([label, v]) => `<p>${label}: ${v}</p>`)
     .join('\n');
+  const pieceAlt = model.type && model.type !== 'Misc' ? `${model.type} unit` : 'origami unit';
   const piece = model.piece
-    ? `<img src="${model.piece}" class="expandable_image">`
+    ? `<img src="${model.piece}" class="expandable_image" alt="A single ${pieceAlt}">`
     : '';
   return `
     <div class="expandable">
-      <div class="expandable_title-bar">
+      <button type="button" class="expandable_title-bar" aria-expanded="false">
         <span class="expandable_title">${model.name}</span>
-        <ion-icon class="expandable_icon" name="chevron-forward-outline"></ion-icon>
-      </div>
+        <ion-icon class="expandable_icon" name="chevron-forward-outline" aria-hidden="true"></ion-icon>
+      </button>
       <div class="expandable_content-wrapper">
         <div class="expandable_content">
           ${lines}
@@ -42,7 +43,9 @@ export function infoCardHtml(model) {
 // regardless of when the card is inserted.
 export function bindInfoCard() {
   document.body.addEventListener('click', (ev) => {
-    if (!ev.target.closest('.expandable_title-bar')) return;
-    ev.target.closest('.expandable').classList.toggle('expandable-open');
+    const bar = ev.target.closest('.expandable_title-bar');
+    if (!bar) return;
+    const open = bar.closest('.expandable').classList.toggle('expandable-open');
+    bar.setAttribute('aria-expanded', open ? 'true' : 'false');
   });
 }
