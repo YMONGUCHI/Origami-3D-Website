@@ -73,8 +73,7 @@ const HERO_IMG = `${SITE}/Gallery_PNG/Sonobe_144pcs.png`;
 const MAIN_PAGES = [
   {
     file: 'index.html',
-    title: 'Origami Collection · Modular Origami in 3D',
-    ogTitle: 'Origami Collection',
+    title: 'Origami Collection',
     description: 'A digital archive of modular origami: dozens of models hand-folded from paper and rebuilt as interactive 3D pieces you can rotate and recolor in the browser.',
     url: `${SITE}/`,
     image: HERO_IMG,
